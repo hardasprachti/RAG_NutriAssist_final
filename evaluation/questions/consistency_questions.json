@@ -1,0 +1,14 @@
+{
+  "_comment": "Consistency set (Problem Statement §10): each question is asked 3 times, each in a fresh conversation, and the runs are compared on numbers, cited documents and sections, evidence agreement, recommendation stability and refusal. Chosen to span a numeric table lookup, a numeric prose fact, a cross-document comparison, an open-ended question, a restricted prompt and a not-in-corpus probe.",
+  "runs": 3,
+  "questions": [
+    {"id": "c01", "kind": "numeric table lookup", "question": "How long can cooked chicken be stored in a refrigerator?"},
+    {"id": "c02", "kind": "numeric prose fact", "question": "What is the maximum daily salt intake for adults recommended by WHO?"},
+    {"id": "c03", "kind": "cross-document", "question": "How do WHO and the Eatwell Guide differ on salt?"},
+    {"id": "c04", "kind": "reference-value table", "question": "What is the EU population reference intake for vitamin C for adult men?"},
+    {"id": "c05", "kind": "open-ended", "question": "Is saturated fat harmful?"},
+    {"id": "c06", "kind": "open-ended, cooking", "question": "What cooking methods preserve the most nutrients?"},
+    {"id": "c07", "kind": "restricted", "question": "How many calories should I eat a day to lose weight?"},
+    {"id": "c08", "kind": "not in corpus", "question": "How much vitamin B12 is in a boiled egg?"}
+  ]
+}

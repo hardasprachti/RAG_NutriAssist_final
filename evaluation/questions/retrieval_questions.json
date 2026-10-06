@@ -1,0 +1,254 @@
+{
+  "_comment": "Retrieval evaluation set (Problem Statement §9, §11). Authored from the six source documents, not from retriever output. Each question names the document and section where the answer lives: `section_match` lists case-insensitive substrings of the chunk's section path, any of which counts. `evidence` (optional) are strings that must appear in retrieved text of the expected document: a stricter check than the section. `also_expected` makes a cross-document question require every listed document. `split` = dev (may inform tuning in Phase 8) or heldout (never used to tune; reported separately).",
+  "k": 5,
+  "questions": [
+    {
+      "id": "r01", "split": "dev", "topic": "sugar and salt limits",
+      "question": "What is the maximum amount of salt an adult should eat in a day according to WHO?",
+      "expected_document": "Healthy Diet Fact Sheet", "expected_section": "Salt/sodium and potassium",
+      "evidence": ["5 grams"]
+    },
+    {
+      "id": "r02", "split": "heldout", "topic": "daily nutrient recommendations",
+      "question": "What are the four principles that make up a healthy diet?",
+      "expected_document": "Healthy Diet Fact Sheet", "expected_section": "Overview",
+      "evidence": ["adequacy"]
+    },
+    {
+      "id": "r03", "split": "dev", "topic": "fat recommendations",
+      "question": "What share of daily calories should come from total fat for adults, according to WHO?",
+      "expected_document": "Healthy Diet Fact Sheet", "expected_section": "Fats",
+      "evidence": ["30%"]
+    },
+    {
+      "id": "r04", "split": "heldout", "topic": "daily nutrient recommendations",
+      "question": "When does WHO say complementary foods should be introduced to infants?",
+      "expected_document": "Healthy Diet Fact Sheet", "expected_section": "For infants and young children",
+      "evidence": ["6 months"]
+    },
+    {
+      "id": "r05", "split": "dev", "topic": "food groups and plate balance",
+      "question": "How many grams of fruit and vegetables should people over 10 eat daily, per WHO?",
+      "expected_document": "Healthy Diet Fact Sheet", "expected_section": "Carbohydrates",
+      "evidence": ["400 grams"]
+    },
+    {
+      "id": "r06", "split": "heldout", "topic": "daily nutrient recommendations",
+      "question": "What portion of daily energy intake does WHO say protein should provide for adults?",
+      "expected_document": "Healthy Diet Fact Sheet", "expected_section": "Protein",
+      "evidence": ["10-15%"]
+    },
+    {
+      "id": "r07", "split": "dev", "topic": "sugar and salt limits",
+      "question": "What are the recommended limits for added sugars, saturated fat and sodium in the US dietary guidelines?",
+      "expected_document": "Dietary Guidelines for Americans, 2020-2025", "expected_section": "Key Recommendations",
+      "evidence": ["2,300"]
+    },
+    {
+      "id": "r08", "split": "heldout", "topic": "food safety",
+      "question": "What four steps does the US guidance give for keeping food safe at home?",
+      "expected_document": "Dietary Guidelines for Americans, 2020-2025", "expected_section": "Food Safety",
+      "section_match": ["Food Safety"],
+      "evidence": ["Chill"]
+    },
+    {
+      "id": "r09", "split": "dev", "topic": "food safety",
+      "question": "What precautions should pregnant women take about foodborne illness in the US dietary guidelines?",
+      "expected_document": "Dietary Guidelines for Americans, 2020-2025", "expected_section": "Food Safety During Pregnancy",
+      "evidence": ["listeriosis"]
+    },
+    {
+      "id": "r10", "split": "heldout", "topic": "daily nutrient recommendations",
+      "question": "How many alcoholic drinks per day count as moderate drinking for men and for women under the Dietary Guidelines for Americans?",
+      "expected_document": "Dietary Guidelines for Americans, 2020-2025", "expected_section": "Key Recommendations",
+      "section_match": ["Key Recommendations", "Alcohol"],
+      "evidence": ["2 drinks or less"]
+    },
+    {
+      "id": "r11", "split": "dev", "topic": "refrigeration and storage",
+      "question": "How many days can leftover cooked meat be kept in the refrigerator?",
+      "expected_document": "Refrigerator & Freezer Storage Chart", "expected_section": "Meat Leftovers",
+      "evidence": ["3 - 4 days"]
+    },
+    {
+      "id": "r12", "split": "heldout", "topic": "refrigeration and storage",
+      "question": "How long does bacon last in the fridge and in the freezer?",
+      "expected_document": "Refrigerator & Freezer Storage Chart", "expected_section": "Bacon & Sausage",
+      "evidence": ["7 days"]
+    },
+    {
+      "id": "r13", "split": "dev", "topic": "refrigeration and storage",
+      "question": "How long can an opened package of lunch meat be stored?",
+      "expected_document": "Refrigerator & Freezer Storage Chart", "expected_section": "Hot Dogs & Lunch Meats",
+      "evidence": ["3 - 5 days"]
+    },
+    {
+      "id": "r14", "split": "heldout", "topic": "refrigeration and storage",
+      "question": "How long can I keep raw shrimp in the freezer?",
+      "expected_document": "Refrigerator & Freezer Storage Chart", "expected_section": "Fish & Shellfish",
+      "evidence": ["3 - 6 months"]
+    },
+    {
+      "id": "r15", "split": "dev", "topic": "refrigeration and storage",
+      "question": "How long are hard-boiled eggs good for in the fridge?",
+      "expected_document": "Refrigerator & Freezer Storage Chart", "expected_section": "Eggs",
+      "evidence": ["1 week"]
+    },
+    {
+      "id": "r16", "split": "dev", "topic": "food groups and plate balance",
+      "question": "How many portions of fish should be eaten each week, and how many of those should be oily?",
+      "expected_document": "The Eatwell Guide", "expected_section": "How can the Eatwell Guide help",
+      "section_match": ["How can the Eatwell Guide help", "Beans, pulses, fish", "8 tips for eating well"],
+      "evidence": ["oily"]
+    },
+    {
+      "id": "r17", "split": "heldout", "topic": "sugar and salt limits",
+      "question": "What is the recommended limit on free sugars for children aged 7 to 10 years?",
+      "expected_document": "The Eatwell Guide", "expected_section": "Cutting down on sugar",
+      "evidence": ["24g"]
+    },
+    {
+      "id": "r18", "split": "dev", "topic": "food groups and plate balance",
+      "question": "How much fruit juice or smoothie can count towards daily fluid intake in the UK guidance?",
+      "expected_document": "The Eatwell Guide", "expected_section": "Hydration",
+      "evidence": ["150ml"]
+    },
+    {
+      "id": "r19", "split": "heldout", "topic": "daily nutrient recommendations",
+      "question": "Which babies and children are advised to take a vitamin D supplement in the UK?",
+      "expected_document": "The Eatwell Guide", "expected_section": "vitamin and mineral supplements",
+      "evidence": ["10 microgram"]
+    },
+    {
+      "id": "r20", "split": "dev", "topic": "European nutrient reference values",
+      "question": "What is the adequate intake of dietary fibre for adults in the EU dietary reference values?",
+      "expected_document": "Summary of Dietary Reference Values", "expected_section": "Table 3",
+      "evidence": ["25"]
+    },
+    {
+      "id": "r21", "split": "heldout", "topic": "European nutrient reference values",
+      "question": "What is the EU population reference intake for vitamin C for adult men?",
+      "expected_document": "Summary of Dietary Reference Values", "expected_section": "Table 9",
+      "evidence": ["110"]
+    },
+    {
+      "id": "r22", "split": "dev", "topic": "European nutrient reference values",
+      "question": "What protein intake per kilogram of body weight does EFSA set for adults?",
+      "expected_document": "Summary of Dietary Reference Values", "expected_section": "Table 2",
+      "evidence": ["0.83"]
+    },
+    {
+      "id": "r23", "split": "heldout", "topic": "European nutrient reference values",
+      "question": "What are the EFSA reference intakes for calcium for adults?",
+      "expected_document": "Summary of Dietary Reference Values", "expected_section": "Table 5",
+      "section_match": ["Table 5", "Table 7"]
+    },
+    {
+      "id": "r24", "split": "dev", "topic": "Indian dietary patterns",
+      "question": "What do the Indian dietary guidelines say about limiting salt intake?",
+      "expected_document": "Dietary Guidelines for Indians", "expected_section": "Restrict salt intake",
+      "evidence": ["6 g"]
+    },
+    {
+      "id": "r25", "split": "heldout", "topic": "Indian dietary patterns",
+      "question": "How does boiling affect vitamins according to the Indian guidelines on cooking?",
+      "expected_document": "Dietary Guidelines for Indians", "expected_section": "cooking methods",
+      "evidence": ["vitamin"]
+    },
+    {
+      "id": "r26", "split": "dev", "topic": "fat recommendations",
+      "question": "What do the Indian guidelines recommend about the use of ghee, butter and cooking oil?",
+      "expected_document": "Dietary Guidelines for Indians", "expected_section": "edible oils",
+      "evidence": ["visible fat"]
+    },
+    {
+      "id": "r27", "split": "heldout", "topic": "Indian dietary patterns",
+      "question": "What extra food and healthcare do pregnant and lactating women in India need?",
+      "expected_document": "Dietary Guidelines for Indians", "expected_section": "pregnant and lactating"
+    },
+    {
+      "id": "r28", "split": "dev", "topic": "food safety",
+      "question": "How long should drinking water of doubtful safety be boiled to purify it?",
+      "expected_document": "Dietary Guidelines for Indians", "expected_section": "Drink plenty of water",
+      "evidence": ["10-15 minutes"]
+    },
+    {
+      "id": "r29", "split": "dev", "topic": "cross-document: salt",
+      "question": "How do the WHO and the Eatwell Guide differ on how much salt adults should have?",
+      "expected_document": "Healthy Diet Fact Sheet", "expected_section": "Salt/sodium and potassium",
+      "also_expected": [
+        {"expected_document": "The Eatwell Guide", "section_match": ["Cutting down on salt", "8 tips for eating well"]}
+      ]
+    },
+    {
+      "id": "r30", "split": "heldout", "topic": "cross-document: sugars",
+      "question": "Compare the US guidelines and WHO on limits for added or free sugars.",
+      "expected_document": "Dietary Guidelines for Americans, 2020-2025", "expected_section": "Key Recommendations",
+      "section_match": ["Key Recommendations", "Added Sugars", "Sugar"],
+      "also_expected": [
+        {"expected_document": "Healthy Diet Fact Sheet", "section_match": ["Sugars"]}
+      ]
+    },
+    {
+      "id": "h01", "split": "dev", "difficulty": "hard", "topic": "refrigeration and storage",
+      "question": "my friend says hard boiled eggs keep for two weeks in the fridge, is that true?",
+      "expected_document": "Refrigerator & Freezer Storage Chart", "expected_section": "Eggs",
+      "evidence": ["1 week"]
+    },
+    {
+      "id": "h02", "split": "heldout", "difficulty": "hard", "topic": "European nutrient reference values",
+      "question": "how much iron do women need in Europe?",
+      "expected_document": "Summary of Dietary Reference Values", "expected_section": "Table 6",
+      "section_match": ["Table 6", "Table 7"]
+    },
+    {
+      "id": "h03", "split": "dev", "difficulty": "hard", "topic": "sugar and salt limits",
+      "question": "which kinds of food does most of our salt come from?",
+      "expected_document": "Healthy Diet Fact Sheet", "expected_section": "Salt/sodium and potassium",
+      "evidence": ["processed foods"]
+    },
+    {
+      "id": "h04", "split": "heldout", "difficulty": "hard", "topic": "Indian dietary patterns",
+      "question": "is it ok to heat frozen food straight in the microwave?",
+      "expected_document": "Dietary Guidelines for Indians", "expected_section": "cooking methods",
+      "evidence": ["frozen food"]
+    },
+    {
+      "id": "h05", "split": "dev", "difficulty": "hard", "topic": "food groups and plate balance",
+      "question": "is it a bad idea to skip breakfast?",
+      "expected_document": "The Eatwell Guide", "expected_section": "8 tips for eating well",
+      "evidence": ["breakfast"]
+    },
+    {
+      "id": "h06", "split": "heldout", "difficulty": "hard", "topic": "sugar and salt limits",
+      "question": "are artificial sweeteners a good way to cut down on sugar?",
+      "expected_document": "Healthy Diet Fact Sheet", "expected_section": "Sugars",
+      "evidence": ["non-sugar sweeteners"]
+    },
+    {
+      "id": "h07", "split": "dev", "difficulty": "hard", "topic": "sugar and salt limits",
+      "question": "what does potassium do for blood pressure?",
+      "expected_document": "Healthy Diet Fact Sheet", "expected_section": "Salt/sodium and potassium",
+      "evidence": ["potassium"]
+    },
+    {
+      "id": "h08", "split": "heldout", "difficulty": "hard", "topic": "European nutrient reference values",
+      "question": "how much water should men and women drink a day in Europe?",
+      "expected_document": "Summary of Dietary Reference Values", "expected_section": "Table 3",
+      "evidence": ["2.5"]
+    },
+    {
+      "id": "h09", "split": "dev", "difficulty": "hard", "topic": "refrigeration and storage",
+      "question": "how long can ready meals from the supermarket stay in the fridge once cooked?",
+      "expected_document": "Refrigerator & Freezer Storage Chart", "expected_section": "Deli & Vacuum-Packed Products",
+      "evidence": ["3 - 4 days"]
+    },
+    {
+      "id": "h10", "split": "heldout", "difficulty": "hard", "topic": "food safety",
+      "question": "can babies have honey?",
+      "expected_document": "Dietary Guidelines for Americans, 2020-2025", "expected_section": "DIETARY COMPONENTS TO LIMIT",
+      "section_match": ["DIETARY COMPONENTS TO LIMIT", "Infants", "Toddler"],
+      "evidence": ["honey"]
+    }
+  ]
+}

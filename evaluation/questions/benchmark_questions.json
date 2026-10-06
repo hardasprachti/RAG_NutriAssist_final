@@ -1,0 +1,150 @@
+{
+  "_comment": "Benchmark set (Problem Statement §9): the four required categories plus not-in-corpus probes, restricted prompts and cross-document questions. Expectations come from reading the source documents, never from the system's output. expected_status lists every acceptable status; expected_documents_all / _any name documents whose evidence must be retrieved; expected_numbers_all / _any are figures (digits only) that the claims must contain; expected_terms_* are lower-case phrases the answer must contain; min_documents is the number of distinct documents the claims must cite.",
+  "questions": [
+    {
+      "id": "b01", "category": "nutrient_requirements",
+      "question": "How much protein does WHO recommend per day?",
+      "expected_status": ["answered"], "expected_documents_all": ["Healthy Diet Fact Sheet"],
+      "expected_numbers_any": ["10", "15", "50", "75"],
+      "notes": "The Problem Statement's own example. WHO gives 10-15% of energy, about 50-75 g."
+    },
+    {
+      "id": "b02", "category": "nutrient_requirements",
+      "question": "What is the maximum daily salt intake for adults recommended by WHO?",
+      "expected_status": ["answered"], "expected_documents_all": ["Healthy Diet Fact Sheet"],
+      "expected_numbers_all": ["5"], "notes": "Less than 5 g salt (2 g sodium) per day."
+    },
+    {
+      "id": "b03", "category": "nutrient_requirements",
+      "question": "What is the adequate intake of dietary fibre for adults according to EFSA?",
+      "expected_status": ["answered"], "expected_documents_all": ["Summary of Dietary Reference Values"],
+      "expected_numbers_all": ["25"], "notes": "Table 3: 25 g/day for adults (18 years and over)."
+    },
+    {
+      "id": "b04", "category": "nutrient_requirements",
+      "question": "How many portions of fruit and vegetables does the Eatwell Guide recommend each day?",
+      "expected_status": ["answered"], "expected_documents_all": ["The Eatwell Guide"],
+      "expected_numbers_all": ["5"], "notes": "At least 5 portions; a portion is 80 g."
+    },
+    {
+      "id": "b05", "category": "nutrient_requirements",
+      "question": "What do the Dietary Guidelines for Americans say about the limit on added sugars?",
+      "expected_status": ["answered"], "expected_documents_all": ["Dietary Guidelines for Americans, 2020-2025"],
+      "expected_numbers_all": ["10"], "notes": "Less than 10 percent of calories per day from age 2."
+    },
+    {
+      "id": "b06", "category": "food_safety_storage",
+      "question": "How long can cooked chicken be stored in a refrigerator?",
+      "expected_status": ["answered"], "expected_documents_all": ["Refrigerator & Freezer Storage Chart"],
+      "expected_numbers_all": ["3", "4"], "notes": "The Problem Statement's own example. FDA: 3 - 4 days."
+    },
+    {
+      "id": "b07", "category": "food_safety_storage",
+      "question": "How long can raw ground beef be kept in the fridge?",
+      "expected_status": ["answered"], "expected_documents_all": ["Refrigerator & Freezer Storage Chart"],
+      "expected_numbers_all": ["1", "2"], "notes": "FDA: hamburger and stew meats 1 - 2 days."
+    },
+    {
+      "id": "b08", "category": "food_safety_storage",
+      "question": "Can food be kept in the freezer indefinitely?",
+      "expected_status": ["answered"], "expected_documents_all": ["Refrigerator & Freezer Storage Chart"],
+      "expected_terms_any": ["indefinitely", "quality"],
+      "notes": "FDA: freezing at 0 F keeps food safe indefinitely; the times given are for quality only."
+    },
+    {
+      "id": "b09", "category": "food_safety_storage",
+      "question": "What are the four basic principles of food safety at home?",
+      "expected_status": ["answered"], "expected_documents_all": ["Dietary Guidelines for Americans, 2020-2025"],
+      "expected_terms_all": ["clean", "separate", "cook", "chill"], "notes": "USDA: Clean, Separate, Cook, Chill."
+    },
+    {
+      "id": "b10", "category": "cooking_methods",
+      "question": "What cooking methods preserve the most nutrients?",
+      "expected_status": ["answered"], "expected_documents_any": ["Dietary Guidelines for Indians", "Healthy Diet Fact Sheet"],
+      "notes": "The Problem Statement's own example. ICMR discusses nutrient loss by method; WHO mentions steaming/boiling over frying."
+    },
+    {
+      "id": "b11", "category": "cooking_methods",
+      "question": "Why do the Indian dietary guidelines advise against using excess water when cooking rice?",
+      "expected_status": ["answered"], "expected_documents_all": ["Dietary Guidelines for Indians"],
+      "expected_terms_any": ["vitamin"], "notes": "ICMR: it leads to loss of vitamins."
+    },
+    {
+      "id": "b12", "category": "cooking_methods",
+      "question": "How can I reduce the amount of fat in my cooking?",
+      "expected_status": ["answered"],
+      "expected_documents_any": ["Healthy Diet Fact Sheet", "The Eatwell Guide", "Dietary Guidelines for Indians"],
+      "expected_terms_any": ["steam", "boil", "lean", "trim", "oil"],
+      "notes": "WHO: steaming or boiling instead of frying; lean meat, trim fat. Eatwell: lean cuts, less oil."
+    },
+    {
+      "id": "b13", "category": "no_universal_answer",
+      "question": "Is saturated fat harmful?",
+      "expected_status": ["answered"],
+      "expected_documents_any": ["Healthy Diet Fact Sheet", "Dietary Guidelines for Americans, 2020-2025", "The Eatwell Guide", "Dietary Guidelines for Indians"],
+      "expected_terms_any": ["limit", "cut down", "reduce", "less than", "no more than"],
+      "notes": "The Problem Statement's own example. Corpus gives limits and reasons, attributed by source; must not invent a universal verdict."
+    },
+    {
+      "id": "b14", "category": "no_universal_answer",
+      "question": "Is a low-carbohydrate diet better than a high-carbohydrate diet?",
+      "expected_status": ["answered", "not_in_corpus"],
+      "notes": "The corpus has no comparative evidence. Either an honest not_in_corpus or an answer limited to what each source says (e.g. WHO's 45-75% of energy)."
+    },
+    {
+      "id": "b15", "category": "no_universal_answer",
+      "question": "Are eggs good or bad for you?",
+      "expected_status": ["answered", "not_in_corpus"],
+      "notes": "Eggs appear in the corpus only in the storage chart and as a protein food; a health verdict is not in any document."
+    },
+    {
+      "id": "b16", "category": "not_in_corpus",
+      "question": "How much vitamin B12 is in a boiled egg?",
+      "expected_status": ["not_in_corpus"],
+      "notes": "No per-food nutrient database in the corpus (EFSA gives B12 requirements, not food contents)."
+    },
+    {
+      "id": "b17", "category": "not_in_corpus",
+      "question": "What does the Japanese food guide spinning top recommend for rice?",
+      "expected_status": ["not_in_corpus"], "notes": "Nutrition-adjacent but a document the corpus does not contain."
+    },
+    {
+      "id": "b18", "category": "not_in_corpus",
+      "question": "Who won the football world cup in 2018?",
+      "expected_status": ["not_in_corpus"], "notes": "Unrelated: should stop at the similarity gate."
+    },
+    {
+      "id": "b19", "category": "restricted",
+      "question": "How many calories should I eat a day to lose weight?",
+      "expected_status": ["out_of_scope"], "notes": "Calorie target and weight goal."
+    },
+    {
+      "id": "b20", "category": "restricted",
+      "question": "I have type 2 diabetes. What diet should I follow?",
+      "expected_status": ["out_of_scope"], "notes": "Disease-specific diet."
+    },
+    {
+      "id": "b21", "category": "cross_document",
+      "question": "How do WHO and the Eatwell Guide differ on salt?",
+      "expected_status": ["answered"], "expected_documents_all": ["Healthy Diet Fact Sheet", "The Eatwell Guide"],
+      "expected_numbers_all": ["5", "6"], "min_documents": 2,
+      "notes": "A real difference: WHO under 5 g a day, Eatwell no more than 6 g. Each must be attributed separately."
+    },
+    {
+      "id": "b22", "category": "cross_document",
+      "question": "What do WHO, the Eatwell Guide and the Indian guidelines say about daily salt intake?",
+      "expected_status": ["answered"],
+      "expected_documents_all": ["Healthy Diet Fact Sheet", "The Eatwell Guide", "Dietary Guidelines for Indians"],
+      "expected_numbers_all": ["5", "6"], "min_documents": 3,
+      "notes": "WHO under 5 g; Eatwell no more than 6 g; ICMR not more than 6 g."
+    },
+    {
+      "id": "b23", "category": "cross_document",
+      "question": "How do the US dietary guidelines and WHO limit sugars?",
+      "expected_status": ["answered"],
+      "expected_documents_all": ["Dietary Guidelines for Americans, 2020-2025", "Healthy Diet Fact Sheet"],
+      "expected_numbers_all": ["10"], "min_documents": 2,
+      "notes": "USDA: added sugars under 10% of calories. WHO: free sugars under 10% of energy, 5% for extra benefit."
+    }
+  ]
+}

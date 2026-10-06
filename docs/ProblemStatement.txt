@@ -1,0 +1,563 @@
+
+## Project Objective
+
+Build a complete AI-powered Nutrition Assistant chatbot that answers questions about food, nutrition, dietary guidelines, cooking methods, and food safety using a Retrieval-Augmented Generation (RAG) architecture.
+
+The application must provide accurate, structured, citation-backed responses using official public dietary guidance documents. It must enforce strict safety boundaries, identify unsupported information, maintain conversation history, and log failures for future improvements.
+
+The system should combine the requirements of Milestone 1 (AI Nutrition Assistant Prototype) and Milestone 2 (Dietary Guidance RAG Chatbot) into a single functional, deployable application.
+
+The primary objective is to ensure that every factual claim made by the assistant is supported by retrieved evidence, rather than relying on the language model's internal knowledge.
+
+---
+
+## 1. Application Architecture
+
+Develop a full-stack application consisting of:
+
+### Frontend
+
+* Chat interface with a message list and input box.
+* Conversation history.
+* Sources panel displayed alongside the conversation.
+* Display citations associated with individual claims.
+* Clear indication when information is unavailable in the knowledge base.
+* Loading indicators and error handling.
+* Responsive UI for desktop and mobile devices.
+
+### Backend
+
+* Secure API endpoints for chat interactions.
+* Conversation storage and retrieval.
+* Server-side LLM integration.
+* RAG pipeline for document retrieval.
+* Structured response validation.
+* Safety enforcement through backend code.
+* Failure logging and analytics.
+* Citation generation and verification.
+
+All model API calls must happen on the backend, never directly from the browser.
+
+---
+
+## 2. Technology Stack
+
+Use the following technologies where appropriate:
+
+* **Frontend:** Next.js or React with TypeScript.
+* **Backend:** FastAPI or Next.js API routes.
+* **LLM:** OpenAI API or Anthropic API.
+* **Database:**  Supabase, or SQLite.
+* **Vector Database:** Supabase pgvector, Qdrant, or Pinecone.
+* **Embeddings:** OpenAI text-embedding-3-small or sentence-transformers.
+* **PDF Processing:** PyMuPDF, Docling, Unstructured, or LlamaParse.
+* **RAG Framework:** LangChain or custom Python implementation.
+* **Deployment:** Vercel for frontend and Railway for backend, or another compatible deployment architecture.
+* **Version Control:** GitHub.
+
+Choose a consistent architecture and document the technology decisions.
+
+---
+
+## 3. Official Dietary Guidance Knowledge Base
+
+Create a document corpus containing 5–7 publicly available dietary guidance documents from recognised authorities, such as:
+
+* National nutrition institutes.
+* Government health departments.
+* Food safety regulators.
+* International health organisations.
+
+### Requirements
+
+1. Collect 5–7 official public guidance documents.
+2. Prefer written guidance documents such as PDFs and reports.
+3. Extract their text and relevant section headings.
+4. Store metadata for every document:
+
+   * Document name.
+   * Publisher.
+   * Publication year.
+   * Source URL.
+   * Retrieval date.
+5. Process documents into meaningful chunks.
+6. Preserve section headings and document metadata.
+7. Avoid splitting tables, numbered recommendations, and important contextual information unnecessarily.
+8. Generate embeddings for each chunk.
+9. Store embeddings in a vector database.
+
+Each chunk must retain its original document metadata so that citations can be generated accurately.
+
+Document the following in the README:
+
+* Chunking strategy.
+* Chunk size.
+* Chunk overlap.
+* Embedding model.
+* Vector index type.
+* Retrieval top-k value.
+* Limitations of the chosen approach.
+
+**Important:** Nutrient values for individual foods should not be invented or treated as dietary guidance. These belong to a structured nutritional database in a future milestone.
+
+---
+
+## 4. RAG Pipeline
+
+Implement a complete Retrieval-Augmented Generation pipeline.
+
+### Workflow
+
+1. User submits a question.
+2. Backend checks the question against safety restrictions.
+3. Convert the question into an embedding.
+4. Retrieve relevant document chunks from the vector database.
+5. Support retrieval across all documents and filtering by a named document.
+6. Pass only retrieved evidence to the LLM.
+7. Generate a structured response.
+8. Validate the response against the defined schema.
+9. Ensure every factual claim has an associated citation.
+10. Return the response to the frontend.
+11. Display the supporting sources in the sources panel.
+12. Log unsupported, inconsistent, or invalid responses.
+
+### Critical RAG Rules
+
+* The assistant must answer exclusively from retrieved document content.
+* Internal model knowledge must never be treated as a factual source.
+* If retrieved evidence does not support an answer, the assistant must explicitly say so.
+* The assistant must not fabricate sources, document names, years, URLs, or citations.
+* If two documents provide different recommendations, present them separately with their respective citations.
+* Never merge conflicting recommendations into a single statement about what "the guidelines say."
+
+---
+
+## 5. Structured Response Schema
+
+The LLM must return structured JSON rather than unrestricted prose.
+
+Use a schema similar to:
+
+```json
+{
+  "answer": "The response text.",
+  "claims": [
+    {
+      "claim_text": "A factual statement supported by retrieved evidence.",
+      "source": {
+        "document_name": "Document name",
+        "publisher": "Publisher name",
+        "year": 2024,
+        "section": "Relevant section",
+        "url": "https://example.com/document.pdf",
+        "chunk_id": "chunk_001"
+      }
+    }
+  ],
+  "status": "answered",
+  "refusal_reason": null
+}
+```
+
+For unsupported claims, do not generate a factual assertion without evidence.
+
+For safety refusals or questions outside the corpus, use appropriate response statuses.
+
+Possible statuses:
+
+* `answered`
+* `not_in_corpus`
+* `out_of_scope`
+* `error`
+
+### Validation Requirements
+
+* Every response must validate against the schema.
+* Every factual claim must have a valid source.
+* Source references must correspond to actual retrieved documents and chunks.
+* Missing or invalid citations must cause the response to fail validation.
+* Do not allow unsupported claims to reach the frontend as verified answers.
+
+Adapt the original Milestone 1 schema to accommodate real citations, documenting any changes.
+
+---
+
+## 6. System Prompt Engineering
+
+Develop a detailed system prompt defining:
+
+### Assistant Identity
+
+The assistant is an AI nutrition information assistant that provides general food, nutrition, cooking, and food safety information based exclusively on official retrieved dietary guidance documents.
+
+### Response Behaviour
+
+* Answer clearly and accurately.
+* Use simple, understandable language.
+* Keep answers concise but sufficiently informative.
+* Explain relevant limitations.
+* Distinguish documented recommendations from uncertainty.
+* Avoid presenting population-level recommendations as individualised advice.
+* Include citations for all factual claims.
+* Never invent information or references.
+
+### Knowledge Boundaries
+
+* Use retrieved documents only.
+* Do not rely on pretrained knowledge to fill missing information.
+* Explicitly acknowledge when evidence is insufficient.
+* Do not infer recommendations beyond the retrieved evidence.
+
+### Safety Boundaries
+
+The assistant must not provide:
+
+* Personal calorie targets.
+* Personal weight targets.
+* Recommendations about what an individual should weigh.
+* Medical advice.
+* Disease-specific dietary treatment recommendations.
+* Personalised nutrition prescriptions.
+
+For restricted questions, decline politely and direct users to a qualified healthcare professional or registered dietitian.
+
+The safety restrictions must be enforced both through the system prompt and backend code.
+
+---
+
+## 7. Safety Enforcement in Backend
+
+Implement a dedicated safety validation layer.
+
+It must identify restricted questions, including:
+
+1. Direct requests for daily calorie targets.
+2. Requests about ideal or recommended personal weight.
+3. Medical or disease-specific dietary recommendations.
+4. Requests for personalised medical nutrition advice.
+
+The safety layer must operate independently of the LLM.
+
+### Adversarial Testing
+
+Test safety restrictions using:
+
+* Direct questions.
+* Rephrased questions.
+* Indirect or sideways questions.
+* Questions embedded in unrelated conversations.
+* Follow-up questions after several unrelated messages.
+
+The assistant must consistently decline restricted requests regardless of wording or conversation history.
+
+Safety refusals must not be bypassed by the retrieval system.
+
+---
+
+## 8. Failure Logging and Monitoring
+
+Implement a failure logging system to identify weaknesses in the assistant.
+
+Record:
+
+* Unsupported factual claims.
+* Missing citations.
+* Invalid citations.
+* Fabricated references.
+* Inconsistent numerical answers.
+* Incorrect document retrieval.
+* Incorrectly answered out-of-corpus questions.
+* Questions that should have been declined.
+* Excessively vague or unhelpful responses.
+* Conflicting guidance presented incorrectly.
+
+Each logged failure should include:
+
+* User question.
+* Model response.
+* Failure category.
+* Relevant retrieved chunks.
+* Timestamp.
+* Model information.
+* Error description.
+
+Do not hardcode individual question fixes.
+
+The purpose of logging is to understand system limitations and improve the architecture through evidence-based changes.
+
+---
+
+## 9. Test Question Bank
+
+Create a minimum of 15 RAG evaluation questions across the available dietary guidance documents.
+
+Each question must have a known expected document and section.
+
+Evaluate whether the correct supporting chunk appears in the top-k retrieved results.
+
+Calculate and report retrieval hit rate.
+
+Additionally, create 10 benchmark questions across these categories:
+
+1. Nutrient requirements.
+2. Food safety and storage.
+3. Cooking methods.
+4. Questions without a clear or universally established answer.
+
+Run all 10 questions through the application.
+
+For each response, record:
+
+* Unsupported claims.
+* Numbers that change across repeated runs.
+* Fabricated citations.
+* Incorrect refusals or missing refusals.
+* Incorrectly retrieved evidence.
+* Unhelpful uncertainty.
+* Citation accuracy.
+
+Group the failures by category and calculate the number of occurrences.
+
+---
+
+## 10. Consistency Testing
+
+Test the same question three times.
+
+Compare the substance of the answers rather than their exact wording.
+
+Evaluate:
+
+* Numerical consistency.
+* Citation consistency.
+* Agreement with retrieved evidence.
+* Stability of recommendations.
+* Consistency of refusal behaviour.
+
+A factual number changing between runs must be recorded as a potential failure.
+
+Do not automatically modify the answers to make them appear consistent.
+
+---
+
+## 11. Retrieval and Citation Evaluation
+
+### Retrieval Evaluation
+
+* Run all 15 evaluation questions.
+* Verify whether the expected document and section appear in the retrieved top-k chunks.
+* Calculate retrieval hit rate.
+* Identify retrieval failures separately from generation failures.
+
+### Citation Evaluation
+
+Manually inspect at least 10 generated answers.
+
+For each answer:
+
+1. Open the cited document.
+2. Locate the cited section.
+3. Verify that the claim is supported.
+4. Check numerical values.
+5. Check whether the citation accurately represents the source.
+6. Record incorrect or unsupported citations.
+
+A citation is not valid simply because the document exists. It must actually support the associated claim.
+
+---
+
+## 12. Cross-Document Retrieval
+
+Implement functionality for questions that require information from multiple documents.
+
+For example, a question about cooking oils may involve recommendations from both a nutrition institute and a food safety authority.
+
+The assistant must:
+
+* Retrieve relevant evidence from each document.
+* Present information separately by source.
+* Provide individual citations for each claim.
+* Identify disagreements where they exist.
+* Avoid combining different recommendations into an unsupported conclusion.
+
+If the sources disagree, show both positions with their publishers and publication years.
+
+Do not arbitrarily select one source as the winner.
+
+---
+
+## 13. Two Types of Refusal
+
+The assistant must distinguish between:
+
+### A. Not in Corpus
+
+When the requested information is not supported by the retrieved documents:
+
+* Clearly state that the available guidance does not cover the question.
+* Mention which documents or sources were searched.
+* Avoid guessing or generating an answer from internal model knowledge.
+
+### B. Out of Scope by Design
+
+For medical advice, personal calorie targets, weight targets, and restricted health-related recommendations:
+
+* Decline politely.
+* Briefly explain the limitation.
+* Recommend consulting a qualified professional.
+* Ensure the refusal is enforced in backend code.
+
+These two refusal types must be represented separately in the response schema.
+
+---
+
+## 14. Database and Conversation Management
+
+Implement persistent storage for:
+
+* User conversations.
+* Chat messages.
+* Retrieved document chunks.
+* Document metadata.
+* Failure logs.
+* Evaluation results.
+
+Maintain conversation history so users can ask follow-up questions.
+
+However, previous conversation messages must never override safety restrictions or the evidence requirements.
+
+---
+
+## 15. Frontend Sources Panel
+
+Build the sources panel in the initial application architecture.
+
+It must display:
+
+* Document title.
+* Publisher.
+* Publication year.
+* Relevant section.
+* Citation URL.
+* Supporting chunk or excerpt.
+
+Each source should be associated with the specific claim it supports.
+
+Users should be able to inspect the evidence behind an answer without leaving the conversation.
+
+---
+
+## 16. Deployment and GitHub
+
+Deploy the complete application publicly.
+
+Requirements:
+
+* Push the complete source code to GitHub.
+* Deploy the frontend and backend.
+* Configure environment variables securely.
+* Never expose API keys in frontend code.
+* Configure production database and vector storage.
+* Verify that all API endpoints work in production.
+* Test the deployed application using the evaluation question bank.
+
+Provide:
+
+* GitHub repository URL.
+* Live application URL.
+* README documentation.
+* Environment variable template.
+* Setup and deployment instructions.
+
+---
+
+## 17. Required Deliverables
+
+The completed assignment must include:
+
+1. Full-stack AI nutrition chatbot.
+2. Responsive chat frontend.
+3. Backend API.
+4. Persistent conversation storage.
+5. Structured response schema.
+6. System prompt.
+7. Backend safety enforcement.
+8. Corpus of 5–7 official dietary guidance documents.
+9. PDF extraction and document processing pipeline.
+10. Document chunking and metadata management.
+11. Embedding generation.
+12. Vector database integration.
+13. RAG retrieval pipeline.
+14. Citation-backed claim generation.
+15. Cross-document retrieval.
+16. Two distinct refusal mechanisms.
+17. Failure logging system.
+18. Minimum 15 retrieval evaluation questions.
+19. Minimum 10 benchmark questions.
+20. Consistency testing results.
+21. Citation verification results.
+22. Retrieval hit-rate report.
+23. Failure analysis report.
+24. GitHub repository.
+25. Publicly deployed application.
+26. Comprehensive README.
+
+---
+
+## 18. Final Acceptance Criteria
+
+The project will be considered complete only when:
+
+* The chatbot works end-to-end.
+* All model calls happen through the backend.
+* Every response follows the defined structured schema.
+* Every factual claim has a verifiable citation.
+* Answers are generated only from retrieved evidence.
+* Unsupported questions produce an explicit not-in-corpus response.
+* Medical advice and personal calorie/weight targets are declined.
+* Safety restrictions work across rephrased and indirect questions.
+* Cross-document answers preserve source attribution.
+* Conflicting recommendations are presented separately.
+* The sources panel displays actual supporting evidence.
+* Conversation history persists.
+* Failures are recorded rather than hardcoded away.
+* Retrieval evaluation is completed.
+* Citation spot-checking is completed.
+* Consistency testing is completed.
+* The application is deployed at a publicly accessible URL.
+* The GitHub repository and README contain the required documentation.
+
+---
+
+## 19. Development Instructions for the AI Coding Assistant
+
+Build this project as one unified, production-oriented application rather than two separate milestone implementations.
+
+Before writing code:
+
+1. Analyse the complete requirements.
+2. Propose a clear system architecture.
+3. Define the database schema.
+4. Define the API contracts.
+5. Define the structured response schema.
+6. Design the RAG pipeline.
+7. Identify the safety enforcement points.
+8. Plan the testing and evaluation strategy.
+
+Then implement the application incrementally.
+
+### Important Implementation Rules
+
+* Do not create mock functionality where real functionality is required.
+* Do not fabricate official documents or citations.
+* Do not use the LLM's internal knowledge as a substitute for retrieved evidence.
+* Do not hardcode answers to evaluation questions.
+* Do not bypass schema validation.
+* Do not expose secrets in frontend code.
+* Do not silently ignore errors.
+* Write clean, modular, maintainable code.
+* Include appropriate error handling and logging.
+* Provide clear setup instructions.
+* Test every major component before deployment.
+
+**Final Goal:** Deliver a complete, working, publicly deployed AI Nutrition Assistant that combines structured LLM responses, official-document RAG, verifiable citations, safety enforcement, conversation management, failure tracking, and measurable evaluation into one cohesive system.

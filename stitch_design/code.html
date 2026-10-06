@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>NutriAI Assistant — Responsive Design System & All Breakpoints</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-dim": "#f0d2dd",
+            "surface-container-highest": "#f9dbe6",
+            "on-surface-variant": "#584145",
+            "tertiary-fixed-dim": "#ffb4a7",
+            "surface-container-lowest": "#ffffff",
+            "inverse-on-surface": "#ffecf2",
+            "on-tertiary-container": "#ffbdb1",
+            "on-tertiary-fixed": "#400100",
+            "primary-fixed": "#ffd9df",
+            "surface-container": "#ffe8f0",
+            "on-primary-container": "#ffbbc7",
+            "primary-fixed-dim": "#ffb1c0",
+            "surface-container-low": "#fff0f4",
+            "secondary-fixed": "#ffddb8",
+            "on-tertiary-fixed-variant": "#891e11",
+            "on-tertiary": "#ffffff",
+            "surface-tint": "#b02553",
+            "secondary-fixed-dim": "#ffb95e",
+            "surface-variant": "#f9dbe6",
+            "secondary": "#855300",
+            "background": "#fff8f8",
+            "tertiary-fixed": "#ffdad4",
+            "on-primary-fixed": "#3f0016",
+            "primary-container": "#a61c4c",
+            "tertiary": "#7e160a",
+            "surface": "#fff8f8",
+            "on-secondary-fixed-variant": "#653e00",
+            "on-surface": "#27171e",
+            "primary": "#a61c4c",
+            "primary-hover": "#820036",
+            "primary-bright": "#c02656",
+            "on-secondary-fixed": "#2a1700",
+            "on-background": "#27171e",
+            "error-container": "#ffdad6",
+            "on-secondary-container": "#6b4200",
+            "inverse-surface": "#3e2b33",
+            "secondary-container": "#fdaa30",
+            "on-primary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-secondary": "#ffffff",
+            "outline-variant": "#dfbfc3",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#8f023c",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#9f2e1f",
+            "surface-container-high": "#ffe0ec",
+            "surface-bright": "#fff8f8",
+            "inverse-primary": "#ffb1c0",
+            "outline": "#8b7075",
+            brand: {
+              maroon: '#A61C4C',
+              maroonBright: '#C02656',
+              maroonHover: '#820036',
+              maroonLight: '#FFF0F4',
+              maroonSubtle: '#FDE8EF',
+              yellow: '#FFD166',
+              yellowLight: '#FFF8E6',
+              coral: '#C02656',
+              coralHover: '#A61C4C',
+              coralLight: '#FFF0F4',
+              teal: '#9E1B47',
+              tealDark: '#800020',
+              tealLight: '#FDE8EF',
+              cream: '#FFF8F8',
+              surface: '#FFF0F4',
+              dark: '#27171E',
+              muted: '#7A5B64',
+              border: '#E8D0D8'
+            }
+          },
+          fontFamily: {
+            nunito: ['Nunito Sans', 'Nunito', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif']
+          },
+          boxShadow: {
+            'soft': '0 4px 20px -2px rgba(166, 28, 76, 0.08), 0 2px 6px -1px rgba(39, 23, 30, 0.04)',
+            'card': '0 2px 14px rgba(166, 28, 76, 0.10)',
+            'active': '0 6px 24px rgba(166, 28, 76, 0.3)',
+            'coral': '0 4px 16px rgba(192, 38, 86, 0.35)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(166, 28, 76, 0.05);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(166, 28, 76, 0.35);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(166, 28, 76, 0.6);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Subtle maroon berry watercolor background pattern */
+    .bg-leaf-pattern {
+      background-color: #FFF8F8;
+      background-image: radial-gradient(#C02656 0.75px, transparent 0.75px), radial-gradient(#A61C4C 0.65px, #FFF8F8 0.65px);
+      background-size: 26px 26px;
+      background-position: 0 0, 13px 13px;
+      background-blend-mode: soft-light;
+    }
+
+    /* Asymmetric message bubble corners */
+    .bubble-user {
+      border-radius: 18px 18px 4px 18px;
+    }
+    .bubble-assistant {
+      border-radius: 18px 18px 18px 4px;
+    }
+
+    /* Soft animations */
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(192, 38, 86, 0.45); }
+      50% { box-shadow: 0 0 0 10px rgba(192, 38, 86, 0); }
+    }
+    .pulse-citation-active {
+      animation: pulseGlow 1.8s infinite;
+    }
+
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+      animation: spinSlow 3s linear infinite;
+    }
+
+    /* Device mockups styling */
+    .screen-stage {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</head>
+<body class="bg-[#1C050E] text-[#27171E] font-nunito antialiased selection:bg-[#A61C4C]/20 min-h-screen">
+
+  <!-- TOP APP NAV & BREAKPOINT / STATE SWITCHER CONTROLLER -->
+  <header class="sticky top-0 z-50 bg-[#280715]/95 backdrop-blur-md border-b border-[#4A0E26] px-4 py-3 text-white">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#A61C4C] via-[#C02656] to-[#FDAA30] flex items-center justify-center shadow-lg shadow-rose-900/40">
+          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-poppins font-bold text-lg text-white tracking-wide">NutriAI Assistant</h1>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#A61C4C]/30 text-[#FFB1C0] border border-[#C02656]/50 uppercase tracking-wider">Maroon Design System</span>
+          </div>
+          <p class="text-xs text-rose-200/80 hidden sm:block">WHO • FDA • ICMR • EFSA Evidence-Backed Nutrition UI</p>
+        </div>
+      </div>
+
+      <!-- Breakpoint Tabs Quick Switcher -->
+      <div class="flex items-center gap-1.5 overflow-x-auto p-1.5 bg-[#17030A] rounded-full border border-[#4D0D27] text-xs">
+        <button onclick="switchView('desktop')" id="tab-desktop" class="view-tab px-3.5 py-1.5 rounded-full font-bold transition-all duration-200 bg-[#C02656] text-white shadow">
+          🖥️ Desktop <span class="opacity-75 font-normal text-[10px] hidden md:inline">1280px+</span>
+        </button>
+        <button onclick="switchView('laptop')" id="tab-laptop" class="view-tab px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 text-rose-200 hover:text-white hover:bg-[#3D0A1E]">
+          💻 Laptop <span class="opacity-75 font-normal text-[10px] hidden md:inline">1024px</span>
+        </button>
+        <button onclick="switchView('tablet')" id="tab-tablet" class="view-tab px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 text-rose-200 hover:text-white hover:bg-[#3D0A1E]">
+          📟 Tablet <span class="opacity-75 font-normal text-[10px] hidden md:inline">768px</span>
+        </button>
+        <button onclick="switchView('android')" id="tab-android" class="view-tab px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 text-rose-200 hover:text-white hover:bg-[#3D0A1E]">
+          📱 Android <span class="opacity-75 font-normal text-[10px] hidden md:inline">Keyboard</span>
+        </button>
+        <button onclick="switchView('ios')" id="tab-ios" class="view-tab px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 text-rose-200 hover:text-white hover:bg-[#3D0A1E]">
+          🍎 iOS Safari <span class="opacity-75 font-normal text-[10px] hidden md:inline">Safe-Area</span>
+        </button>
+        <button onclick="switchView('gallery')" id="tab-gallery" class="view-tab px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 text-[#FDAA30] hover:bg-[#FDAA30]/10">
+          🗂️ All 10 States Spec
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE CONTAINER -->
+  <main class="py-6 px-3 sm:px-6">
+
+    <!-- VIEW 1: DESKTOP WEB (1280px+) FULL 3-COLUMN -->
+    <section id="view-desktop" class="view-container max-w-[1360px] mx-auto transition-all">
+      <div class="mb-3 flex items-center justify-between px-2">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-[#C02656] inline-block animate-ping"></span>
+          <span class="w-3 h-3 rounded-full bg-[#C02656] inline-block -ml-5"></span>
+          <h2 class="font-poppins font-bold text-white text-base">🖥️ Desktop Web (1280px+) — Full Three-Column Maroon Layout</h2>
+          <span class="text-xs bg-[#A61C4C]/25 text-[#FFB1C0] border border-[#A61C4C]/40 font-bold px-2 py-0.5 rounded-full">Sidebar 220px | Chat Flex | Sources 320px</span>
+        </div>
+        <div class="text-xs text-rose-200/90">Interactive live prototype • Try clicking citations [1], [2], [3]</div>
+      </div>
+
+      <!-- DESKTOP CONTAINER FRAME -->
+      <div class="bg-brand-cream rounded-2xl shadow-2xl border border-brand-border overflow-hidden flex h-[820px] relative bg-leaf-pattern">
+        
+        <!-- COLUMN 1: SIDEBAR (220px) -->
+        <aside class="w-[220px] bg-brand-surface border-r border-brand-border flex flex-col justify-between p-4 flex-shrink-0 z-10">
+          <div>
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-2.5 mb-6 px-1">
+              <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-[#820036] to-[#C02656] flex items-center justify-center text-white shadow-sm">
+                <!-- Illustrated Bowl SVG -->
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z" fill="#FFF0F4" fill-opacity="0.8"/>
+                  <path d="M12 3a6 6 0 0 1 6 6H6a6 6 0 0 1 6-6Z" fill="#C02656" fill-opacity="0.35"/>
+                  <path d="M12 3v9"/>
+                  <path d="M9 7c1.5-2 4.5-2 6 0"/>
+                </svg>
+              </div>
+              <div>
+                <div class="font-poppins font-extrabold text-base text-brand-dark tracking-tight leading-none">NutriAI</div>
+                <div class="text-[10px] text-brand-maroon font-bold tracking-wide uppercase">Evidence Bot</div>
+              </div>
+            </div>
+
+            <!-- New Chat CTA -->
+            <button class="w-full py-2.5 px-4 rounded-full bg-[#A61C4C] hover:bg-[#820036] text-white font-poppins font-bold text-xs shadow-coral flex items-center justify-center gap-2 transition transform active:scale-95">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+              New Nutrition Chat
+            </button>
+
+            <!-- Past Conversations List -->
+            <div class="mt-6">
+              <div class="text-[11px] font-bold text-brand-muted uppercase tracking-wider mb-2.5 px-1">Recent Chats</div>
+              <div class="space-y-1.5 overflow-y-auto max-h-[500px] pr-1">
+                <!-- Active Chat Item -->
+                <div class="p-2.5 rounded-xl bg-white border-l-4 border-[#C02656] shadow-soft cursor-pointer hover:bg-white transition flex flex-col">
+                  <div class="text-xs font-bold text-brand-dark truncate">Adult Vitamin D Guidance</div>
+                  <div class="text-[10px] text-brand-muted mt-0.5 flex items-center justify-between">
+                    <span>WHO & ICMR 2024</span>
+                    <span class="text-[#A61C4C] font-bold">Just now</span>
+                  </div>
+                </div>
+
+                <div class="p-2.5 rounded-xl bg-transparent border-l-4 border-transparent hover:bg-brand-maroonSubtle/70 cursor-pointer transition flex flex-col">
+                  <div class="text-xs font-semibold text-brand-dark/80 truncate">Iron absorption vs Tannins</div>
+                  <div class="text-[10px] text-brand-muted mt-0.5 flex items-center justify-between">
+                    <span>EFSA Report</span>
+                    <span>2h ago</span>
+                  </div>
+                </div>
+
+                <div class="p-2.5 rounded-xl bg-transparent border-l-4 border-transparent hover:bg-brand-maroonSubtle/70 cursor-pointer transition flex flex-col">
+                  <div class="text-xs font-semibold text-brand-dark/80 truncate">Omega-3 DHA vs EPA ratio</div>
+                  <div class="text-[10px] text-brand-muted mt-0.5 flex items-center justify-between">
+                    <span>FDA Guidelines</span>
+                    <span>Yesterday</span>
+                  </div>
+                </div>
+
+                <div class="p-2.5 rounded-xl bg-transparent border-l-4 border-transparent hover:bg-brand-maroonSubtle/70 cursor-pointer transition flex flex-col">
+                  <div class="text-xs font-semibold text-brand-dark/80 truncate">Creatine Monohydrate safety</div>
+                  <div class="text-[10px] text-brand-muted mt-0.5 flex items-center justify-between">
+                    <span>EFSA Opinion</span>
+                    <span>3d ago</span>
+                  </div>
+                </div>
+
+                <div class="p-2.5 rounded-xl bg-transparent border-l-4 border-transparent hover:bg-brand-maroonSubtle/70 cursor-pointer transition flex flex-col">
+                  <div class="text-xs font-semibold text-brand-dark/80 truncate">Daily Sodium Limits (WHO)</div>
+                  <div class="text-[10px] text-brand-muted mt-0.5 flex items-center justify-between">
+                    <span>WHO Benchmark</span>
+                    <span>5d ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Footer Profile -->
+          <div class="pt-3 border-t border-brand-border flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-full bg-[#FDAA30] text-[#27171E] font-bold text-xs flex items-center justify-center border-2 border-white shadow-sm">
+              JD
+            </div>
+            <div class="overflow-hidden">
+              <div class="text-xs font-bold text-brand-dark truncate">Dr. Joy Doe</div>
+              <div class="text-[10px] text-brand-muted flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#C02656]"></span> Pro Member
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- COLUMN 2: MAIN CHAT WINDOW (FLEX) -->
+        <section class="flex-1 flex flex-col h-full bg-brand-cream/80 relative">
+          
+          <!-- Chat Header Bar -->
+          <div class="h-16 px-6 border-b border-brand-border flex items-center justify-between bg-white/95 backdrop-blur-sm z-10">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-[#FFF0F4] border border-[#FFBBC7] flex items-center justify-center text-[#A61C4C] font-bold">
+                🍇
+              </div>
+              <div>
+                <h3 class="font-poppins font-bold text-sm text-brand-dark flex items-center gap-2">
+                  Evidence-Based Nutrition Consultation
+                  <span class="px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#A61C4C] border border-[#FFB1C0] text-[10px] font-bold">4 Verified Sources</span>
+                </h3>
+                <p class="text-xs text-brand-muted">Cross-referencing WHO Technical Guidelines, ICMR-NIN & FDA Daily Values</p>
+              </div>
+            </div>
+
+            <!-- Header Action Controls -->
+            <div class="flex items-center gap-2">
+              <button class="px-3 py-1.5 rounded-full text-xs font-bold bg-white hover:bg-brand-surface text-brand-dark transition flex items-center gap-1.5 border border-brand-border">
+                <svg class="w-3.5 h-3.5 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                Share
+              </button>
+              <button onclick="toggleDesktopSources()" id="desktop-sources-toggle-btn" class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#FFF0F4] text-[#A61C4C] hover:bg-[#FDE8EF] transition flex items-center gap-1.5 border border-[#C02656]/30">
+                📚 Evidence Panel <span class="bg-[#A61C4C] text-white px-1.5 py-0.2 rounded-full text-[10px]">3</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Message History Scroll Area -->
+          <div class="flex-1 overflow-y-auto p-6 space-y-5">
+            
+            <!-- Timestamp indicator -->
+            <div class="flex justify-center">
+              <span class="px-3 py-1 rounded-full bg-white/90 text-brand-muted text-[11px] font-semibold border border-brand-border shadow-sm">
+                Today, 10:42 AM • Clinical Reference Mode
+              </span>
+            </div>
+
+            <!-- USER MESSAGE 1 -->
+            <div class="flex justify-end">
+              <div class="max-w-[65%] bubble-user bg-brand-yellow text-brand-dark p-4 shadow-soft">
+                <p class="text-sm font-semibold leading-relaxed">
+                  How much vitamin D do adults actually need daily, and how much can you safely get from sunlight versus food or supplements?
+                </p>
+                <div class="text-[10px] text-brand-dark/70 text-right mt-1.5 font-bold">10:42 AM • Sent</div>
+              </div>
+            </div>
+
+            <!-- ASSISTANT RESPONSE WITH CITATION BADGES -->
+            <div class="flex justify-start items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#820036] to-[#C02656] text-white flex items-center justify-center font-bold text-xs shadow-sm flex-shrink-0 mt-1">
+                🫐
+              </div>
+              <div class="max-w-[70%] bubble-assistant bg-white border-l-4 border-[#C02656] p-5 shadow-card text-brand-dark space-y-3">
+                <div class="flex items-center justify-between border-b border-rose-100 pb-2">
+                  <span class="font-poppins font-bold text-xs text-[#A61C4C] flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-[#C02656]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    Synthesized from WHO & ICMR-NIN Clinical Guidelines
+                  </span>
+                  <span class="text-[10px] text-[#A61C4C] bg-[#FFF0F4] px-2 py-0.5 rounded-full font-bold">High Consensus (Grade A)</span>
+                </div>
+
+                <p class="text-sm leading-relaxed text-gray-800">
+                  According to official guidance from the <strong>World Health Organization (WHO)</strong>
+                  <button onclick="highlightSource('src-1')" class="inline-flex items-center justify-center w-5 h-5 ml-1 mr-1 text-[11px] font-bold text-white bg-[#C02656] hover:bg-[#820036] rounded-full transition transform hover:scale-110 shadow-sm" title="View Source 1: WHO Technical Guideline">1</button>
+                  and the <strong>ICMR-National Institute of Nutrition (2024 update)</strong>
+                  <button onclick="highlightSource('src-2')" class="inline-flex items-center justify-center w-5 h-5 ml-1 mr-1 text-[11px] font-bold text-white bg-[#C02656] hover:bg-[#820036] rounded-full transition transform hover:scale-110 shadow-sm" title="View Source 2: ICMR-NIN RDA">2</button>, healthy adults (ages 19–70) require:
+                </p>
+
+                <!-- Micro Structured Evidence Card -->
+                <div class="bg-brand-maroonLight/80 border border-[#FFBBC7] rounded-xl p-3 grid grid-cols-2 gap-3 text-xs">
+                  <div class="bg-white p-2.5 rounded-lg border border-brand-border">
+                    <span class="text-[10px] font-bold text-brand-muted block uppercase">Daily Recommended RDA</span>
+                    <span class="font-poppins font-extrabold text-base text-brand-dark">600 – 800 IU</span>
+                    <span class="text-[10px] text-gray-500 block">(15 – 20 mcg / day)</span>
+                  </div>
+                  <div class="bg-white p-2.5 rounded-lg border border-brand-border">
+                    <span class="text-[10px] font-bold text-brand-muted block uppercase">Tolerable Upper Limit (UL)</span>
+                    <span class="font-poppins font-extrabold text-base text-[#C02656]">4,000 IU / day</span>
+                    <span class="text-[10px] text-gray-500 block">FDA / EFSA safety cap</span>
+                  </div>
+                </div>
+
+                <div class="space-y-1.5 text-xs text-gray-700 leading-relaxed">
+                  <p><strong>☀️ Sunlight synthesis:</strong> 15–25 minutes of midday sun exposure (face, arms, and hands without sunscreen) generates roughly 1,000–2,000 IU in fair-to-medium skin tones, regulated naturally without risk of toxicity.</p>
+                  <p><strong>🐟 Dietary sources:</strong> Wild salmon (400–600 IU per 100g), fortified plant milks (100–120 IU per cup), and egg yolks (40 IU each)
+                  <button onclick="highlightSource('src-3')" class="inline-flex items-center justify-center w-5 h-5 ml-1 text-[11px] font-bold text-white bg-[#C02656] hover:bg-[#820036] rounded-full transition transform hover:scale-110 shadow-sm" title="View Source 3: FDA Daily Value Database">3</button>.</p>
+                </div>
+
+                <!-- Actionable follow-up chips -->
+                <div class="pt-2 flex flex-wrap gap-2">
+                  <span class="text-[11px] font-bold text-brand-muted self-center">Explore next:</span>
+                  <button class="px-2.5 py-1 rounded-full text-xs font-bold bg-[#FFF0F4] text-[#A61C4C] border border-[#FFBBC7] hover:bg-[#FDE8EF] transition">Does Vitamin D3 need K2? 💡</button>
+                  <button class="px-2.5 py-1 rounded-full text-xs font-bold bg-brand-yellowLight text-amber-900 border border-brand-yellow/50 hover:bg-amber-100 transition">Check my winter food intake</button>
+                </div>
+
+                <div class="flex items-center justify-between text-[10px] text-gray-400 pt-1">
+                  <span>Peer-reviewed scientific consensus • Not individual medical advice</span>
+                  <div class="flex gap-2">
+                    <button class="hover:text-brand-dark">👍 Helpful</button>
+                    <button class="hover:text-brand-dark">📋 Copy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- DEMONSTRATING REFUSAL BANNERS WITHIN CHAT -->
+            <!-- 1. Out of Scope Banner (Preserving Health Boundaries) -->
+            <div class="max-w-[70%] ml-11 rounded-2xl bg-[#FFF0F4] border border-[#FFB1C0] p-3.5 shadow-sm flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-[#FFD9DF] text-[#820036] flex items-center justify-center text-sm font-bold flex-shrink-0">
+                ❤️
+              </div>
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="font-poppins font-bold text-xs text-[#820036]">Clinical Boundary Notice</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FFB1C0] text-[#3F0016]">Out of Scope</span>
+                </div>
+                <p class="text-xs text-[#584145] leading-relaxed">
+                  NutriAI cannot diagnose medical conditions or prescribe hormone/megadose therapies. For acute symptoms, blood tests, or pregnancy plans, please consult a licensed dietitian or physician.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- FIXED INPUT BAR (DESKTOP) -->
+          <div class="p-4 bg-white/95 border-t border-brand-border">
+            <div class="max-w-4xl mx-auto flex items-center gap-3 bg-brand-surface rounded-[28px] border-2 border-brand-border px-4 py-2 focus-within:border-[#C02656] focus-within:ring-2 focus-within:ring-rose-200 transition shadow-inner">
+              <button class="text-brand-muted hover:text-[#A61C4C] transition" title="Attach meal photo or blood panel PDF">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+              </button>
+              <input 
+                type="text" 
+                value="Can magnesium glycinate improve sleep if taken with dinner?" 
+                placeholder="Ask about nutrition, food safety, vitamins, minerals, or dietary recommendations..." 
+                class="flex-1 bg-transparent text-sm text-brand-dark outline-none placeholder:text-gray-400 font-nunito"
+              />
+              <button class="w-9 h-9 rounded-full bg-[#C02656] hover:bg-[#820036] text-white flex items-center justify-center shadow-coral transition transform active:scale-95" title="Send Question">
+                <svg class="w-4 h-4 transform rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+              </button>
+            </div>
+            <div class="max-w-4xl mx-auto flex items-center justify-between mt-2 px-2 text-[11px] text-brand-muted">
+              <span>Press <kbd class="px-1.5 py-0.5 bg-gray-100 border border-gray-300 rounded font-mono text-[10px]">Enter ↵</kbd> to send</span>
+              <span class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#C02656]"></span> Live PubMed & Health Authority Index connected
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- COLUMN 3: EVIDENCE SOURCES PANEL (320px) -->
+        <aside id="desktop-sources-panel" class="w-[320px] bg-brand-surface border-l border-brand-border flex flex-col h-full flex-shrink-0 transition-all duration-300 z-10">
+          <!-- Panel Header -->
+          <div class="p-4 border-b border-brand-border flex items-center justify-between bg-white">
+            <div class="flex items-center gap-2">
+              <span class="text-base">📚</span>
+              <h4 class="font-poppins font-bold text-sm text-[#A61C4C]">Evidence Sources (3)</h4>
+            </div>
+            <button onclick="toggleDesktopSources()" class="text-brand-muted hover:text-brand-dark p-1 rounded-lg hover:bg-gray-100 transition" title="Collapse Panel">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Scrollable Sources List -->
+          <div class="p-3.5 space-y-3 overflow-y-auto flex-1">
+            
+            <!-- SOURCE CARD 1 -->
+            <div id="src-1" class="source-card bg-white p-3.5 rounded-2xl border border-brand-border shadow-soft transition-all duration-200 hover:border-[#C02656] hover:shadow-card">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <span class="w-6 h-6 rounded-full bg-[#C02656] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 shadow-sm">1</span>
+                <div class="flex-1">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#A61C4C] font-bold text-[10px] border border-[#FFBBC7]">WHO Global</span>
+                    <span class="px-1.5 py-0.5 rounded-full bg-brand-yellowLight text-amber-900 font-bold text-[10px]">2023 Update</span>
+                  </div>
+                </div>
+              </div>
+              <h5 class="font-poppins font-bold text-xs text-brand-dark leading-snug">
+                WHO Guidelines on Vitamin D and Bone Health in Adults
+              </h5>
+              <p class="text-[11px] text-gray-600 italic mt-1.5 line-clamp-3 bg-brand-cream p-2 rounded-lg border border-brand-border/60">
+                "Daily intakes between 600–800 IU prevent secondary hyperparathyroidism and maintain optimal serum 25(OH)D levels above 50 nmol/L across adult demographics."
+              </p>
+              <div class="mt-2.5 pt-2 border-t border-gray-100 flex items-center justify-between text-[11px]">
+                <span class="text-brand-muted">Section 4.2 • Page 78</span>
+                <a href="#who" class="text-[#A61C4C] font-bold hover:underline flex items-center gap-1">
+                  View Source <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- SOURCE CARD 2 -->
+            <div id="src-2" class="source-card bg-white p-3.5 rounded-2xl border border-brand-border shadow-soft transition-all duration-200 hover:border-[#C02656] hover:shadow-card">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <span class="w-6 h-6 rounded-full bg-[#C02656] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 shadow-sm">2</span>
+                <div class="flex-1">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#A61C4C] font-bold text-[10px] border border-[#FFBBC7]">ICMR - NIN</span>
+                    <span class="px-1.5 py-0.5 rounded-full bg-brand-yellowLight text-amber-900 font-bold text-[10px]">2024 Dietary Recs</span>
+                  </div>
+                </div>
+              </div>
+              <h5 class="font-poppins font-bold text-xs text-brand-dark leading-snug">
+                Nutrient Requirements and Recommended Dietary Allowances for Indians
+              </h5>
+              <p class="text-[11px] text-gray-600 italic mt-1.5 line-clamp-3 bg-brand-cream p-2 rounded-lg border border-brand-border/60">
+                "Direct non-burning sun exposure for 20 minutes daily provides requisite cholecalciferol conversion for tropical populations with varied melanin pigmentation."
+              </p>
+              <div class="mt-2.5 pt-2 border-t border-gray-100 flex items-center justify-between text-[11px]">
+                <span class="text-brand-muted">Chapter 11 • Table 8.4</span>
+                <a href="#icmr" class="text-[#A61C4C] font-bold hover:underline flex items-center gap-1">
+                  View Source <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- SOURCE CARD 3 -->
+            <div id="src-3" class="source-card bg-white p-3.5 rounded-2xl border border-brand-border shadow-soft transition-all duration-200 hover:border-[#C02656] hover:shadow-card">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <span class="w-6 h-6 rounded-full bg-[#C02656] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 shadow-sm">3</span>
+                <div class="flex-1">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#A61C4C] font-bold text-[10px] border border-[#FFBBC7]">US FDA</span>
+                    <span class="px-1.5 py-0.5 rounded-full bg-brand-yellowLight text-amber-900 font-bold text-[10px]">Daily Values (DV)</span>
+                  </div>
+                </div>
+              </div>
+              <h5 class="font-poppins font-bold text-xs text-brand-dark leading-snug">
+                FDA Nutrition Labeling & Food Fact Sheets: Vitamin D
+              </h5>
+              <p class="text-[11px] text-gray-600 italic mt-1.5 line-clamp-3 bg-brand-cream p-2 rounded-lg border border-brand-border/60">
+                "The Daily Value for Vitamin D is 20 mcg (800 IU). Tolerable upper intake level established at 100 mcg (4,000 IU) to prevent hypercalcemia."
+              </p>
+              <div class="mt-2.5 pt-2 border-t border-gray-100 flex items-center justify-between text-[11px]">
+                <span class="text-brand-muted">Docket No. FDA-2022</span>
+                <a href="#fda" class="text-[#A61C4C] font-bold hover:underline flex items-center gap-1">
+                  View Source <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Quality Assurance -->
+          <div class="p-3 border-t border-brand-border bg-white text-center">
+            <span class="text-[11px] text-brand-muted flex items-center justify-center gap-1 font-semibold">
+              <span class="w-2 h-2 rounded-full bg-[#C02656] inline-block"></span>
+              All sources verified via SHA-256 hash
+            </span>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+
+    <!-- VIEW 2: LAPTOP (1024px–1279px) COMPACT WITH SOURCES COLLAPSED -->
+    <section id="view-laptop" class="view-container max-w-[1100px] mx-auto hidden transition-all">
+      <div class="mb-3 flex items-center justify-between px-2">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-[#FDAA30] inline-block"></span>
+          <h2 class="font-poppins font-bold text-white text-base">💻 Laptop Web (1024px–1279px) — Compact Maroon Layout</h2>
+          <span class="text-xs bg-[#A61C4C]/30 text-[#FFB1C0] border border-[#C02656]/50 font-bold px-2 py-0.5 rounded-full">Sidebar 200px | Flex Chat | Sources Toggled by Pill</span>
+        </div>
+        <div class="text-xs text-rose-200/90">Message bubbles 70% width • Tighter horizontal margins</div>
+      </div>
+
+      <div class="bg-brand-cream rounded-2xl shadow-2xl border border-brand-border overflow-hidden flex h-[760px] relative bg-leaf-pattern">
+        
+        <!-- COMPACT SIDEBAR (200px) -->
+        <aside class="w-[200px] bg-brand-surface border-r border-brand-border flex flex-col justify-between p-3.5 flex-shrink-0">
+          <div>
+            <div class="flex items-center gap-2 mb-4 px-1">
+              <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#820036] to-[#C02656] flex items-center justify-center text-white font-bold">
+                🍇
+              </div>
+              <span class="font-poppins font-extrabold text-sm text-brand-dark">NutriAI</span>
+            </div>
+
+            <button class="w-full py-2 px-3 rounded-full bg-[#C02656] hover:bg-[#820036] text-white font-poppins font-bold text-xs shadow-coral flex items-center justify-center gap-1.5 mb-4">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+              New Chat
+            </button>
+
+            <div class="text-[10px] font-bold text-brand-muted uppercase tracking-wider mb-2 px-1">Recent Chats</div>
+            <div class="space-y-1 text-xs">
+              <div class="p-2 rounded-lg bg-white border-l-4 border-[#C02656] font-bold text-brand-dark shadow-sm">
+                Adult Vitamin D Guidance
+              </div>
+              <div class="p-2 rounded-lg text-brand-dark/70 hover:bg-brand-maroonSubtle/70 cursor-pointer">
+                Iron vs Tannins absorption
+              </div>
+              <div class="p-2 rounded-lg text-brand-dark/70 hover:bg-brand-maroonSubtle/70 cursor-pointer">
+                Omega-3 EPA vs DHA
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 bg-white rounded-xl border border-brand-border flex items-center gap-2">
+            <div class="w-7 h-7 rounded-full bg-[#FDAA30] text-xs font-bold flex items-center justify-center">JD</div>
+            <div class="text-xs truncate font-bold text-brand-dark">Dr. Joy Doe</div>
+          </div>
+        </aside>
+
+        <!-- CHAT WINDOW -->
+        <section class="flex-1 flex flex-col h-full bg-brand-cream">
+          <div class="h-14 px-5 border-b border-brand-border flex items-center justify-between bg-white/95">
+            <div class="flex items-center gap-2">
+              <span class="font-poppins font-bold text-sm text-brand-dark">Adult Vitamin D Guidance</span>
+              <span class="text-xs text-brand-muted">• 1024px Laptop Layout</span>
+            </div>
+            
+            <!-- Sources Pill Button (Active state showing sources collapsed notification) -->
+            <button class="px-3 py-1 rounded-full text-xs font-bold bg-[#C02656] text-white shadow-coral flex items-center gap-1.5 animate-bounce">
+              <span>📚 Sources (3)</span>
+              <span class="bg-white text-[#C02656] text-[10px] px-1.5 py-0.2 rounded-full font-extrabold">Tap to Expand</span>
+            </button>
+          </div>
+
+          <!-- Messages -->
+          <div class="flex-1 p-5 overflow-y-auto space-y-4">
+            <div class="flex justify-end">
+              <div class="max-w-[70%] bubble-user bg-brand-yellow text-brand-dark p-3.5 shadow-sm text-xs font-semibold leading-relaxed">
+                What are the best bioavailable food sources for Calcium if someone is strictly lactose intolerant?
+              </div>
+            </div>
+
+            <div class="flex justify-start items-start gap-2.5">
+              <div class="w-7 h-7 rounded-full bg-[#C02656] text-white text-xs flex items-center justify-center font-bold mt-1">🫐</div>
+              <div class="max-w-[70%] bubble-assistant bg-white border-l-4 border-[#C02656] p-4 shadow-card text-brand-dark space-y-2.5">
+                <div class="text-[11px] font-bold text-[#A61C4C] uppercase tracking-wide">EFSA & WHO Validated Data</div>
+                <p class="text-xs leading-relaxed">
+                  For lactose-intolerant individuals, bioavailable non-dairy calcium sources should factor in oxalate and phytate inhibition ratios
+                  <span class="inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-[#C02656] rounded-full">1</span>:
+                </p>
+                <ul class="text-xs space-y-1 list-disc pl-4 text-gray-700">
+                  <li><strong>Calcium-set Tofu:</strong> 350–400 mg per 100g (Absorption ~31%, identical to dairy milk) <span class="text-[10px] bg-[#C02656] text-white px-1 rounded-full font-bold">2</span></li>
+                  <li><strong>Bok Choy & Broccoli:</strong> High bioavailability (~50–60% fractional absorption due to low oxalates).</li>
+                  <li><strong>Fortified Plant Milks:</strong> Typically 300 mg per cup (must shake well as tricalcium phosphate settles).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input -->
+          <div class="p-3 bg-white border-t border-brand-border">
+            <div class="flex items-center gap-2 bg-brand-surface rounded-full border border-brand-border px-4 py-2">
+              <input type="text" placeholder="Ask follow up..." class="flex-1 bg-transparent text-xs outline-none">
+              <button class="w-7 h-7 rounded-full bg-[#C02656] text-white flex items-center justify-center text-xs">➔</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+
+    <!-- VIEW 3: TABLET (768px–1023px) TWO-COLUMN WITH ICON RAIL + SLIDE-IN SOURCES DRAWER -->
+    <section id="view-tablet" class="view-container max-w-[860px] mx-auto hidden transition-all">
+      <div class="mb-3 flex items-center justify-between px-2">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-[#C02656] inline-block"></span>
+          <h2 class="font-poppins font-bold text-white text-base">📟 Tablet (768px–1023px) — Icon Rail (60px) + Sources Slide-in Drawer</h2>
+          <span class="text-xs bg-[#FFF0F4] text-[#A61C4C] border border-[#FFBBC7] font-bold px-2 py-0.5 rounded-full">Maroon Drawer from Right (75vw) + Dark Overlay</span>
+        </div>
+      </div>
+
+      <div class="bg-brand-cream rounded-2xl shadow-2xl border border-brand-border overflow-hidden flex h-[760px] relative bg-leaf-pattern">
+        
+        <!-- TABLET ICON-ONLY RAIL (60px) -->
+        <aside class="w-[60px] bg-brand-surface border-r border-brand-border flex flex-col items-center justify-between py-4 flex-shrink-0 z-20">
+          <div class="flex flex-col items-center space-y-6">
+            <!-- App Logo Icon -->
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#820036] to-[#C02656] flex items-center justify-center text-lg text-white shadow-sm" title="NutriAI Home">
+              🍇
+            </div>
+            <!-- New Chat Icon -->
+            <button class="w-10 h-10 rounded-full bg-[#C02656] hover:bg-[#820036] text-white flex items-center justify-center shadow-coral transition" title="Start New Consultation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+            </button>
+            <!-- History Drawer Trigger -->
+            <button class="w-10 h-10 rounded-xl bg-white border border-brand-border text-brand-dark flex items-center justify-center hover:bg-brand-maroonSubtle transition" title="Open Conversation History">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </button>
+            <!-- Bookmarked Evidence -->
+            <button class="w-10 h-10 rounded-xl bg-white border border-brand-border text-brand-dark flex items-center justify-center hover:bg-brand-maroonSubtle transition" title="Saved Documents">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+            </button>
+          </div>
+
+          <!-- Bottom Profile -->
+          <div class="w-8 h-8 rounded-full bg-[#FDAA30] text-xs font-bold flex items-center justify-center border-2 border-white shadow-sm">
+            JD
+          </div>
+        </aside>
+
+        <!-- CHAT WINDOW (UNDER OVERLAY) -->
+        <div class="flex-1 flex flex-col relative">
+          <!-- Tablet Header -->
+          <div class="h-14 px-4 bg-white/95 border-b border-brand-border flex items-center justify-between">
+            <div class="font-poppins font-bold text-sm text-brand-dark flex items-center gap-2">
+              <span>Tablet Viewport (768px)</span>
+              <span class="text-xs font-normal text-brand-muted">Active Drawer Mode</span>
+            </div>
+            <button class="px-3 py-1 rounded-full text-xs font-bold bg-[#C02656] text-white flex items-center gap-1 shadow-sm">
+              📚 Sources Drawer Open
+            </button>
+          </div>
+
+          <!-- Chat list under semi-transparent overlay -->
+          <div class="flex-1 p-4 space-y-3 opacity-40">
+            <div class="bubble-user bg-brand-yellow p-3 text-xs ml-auto max-w-[75%] font-semibold">
+              Is intermittent fasting 16/8 safe for type 2 pre-diabetics according to clinical guidelines?
+            </div>
+            <div class="bubble-assistant bg-white p-3 text-xs mr-auto max-w-[75%] shadow-sm border-l-4 border-[#C02656]">
+              Major endocrinology guidelines (ADA & ICMR) support time-restricted eating only with structured medication adjustments to prevent hypoglycemic episodes...
+            </div>
+          </div>
+
+          <!-- SEMI-TRANSPARENT DARK BACKDROP (Per Requirement 10) -->
+          <div class="absolute inset-0 bg-[#27171E]/60 backdrop-blur-[2px] z-30 transition-opacity"></div>
+
+          <!-- SLIDE-IN SOURCES DRAWER (75vw / 420px max on tablet) -->
+          <div class="absolute top-0 right-0 bottom-0 w-[420px] bg-brand-surface border-l-2 border-[#C02656]/50 shadow-2xl z-40 flex flex-col animate-slide-in">
+            <!-- Drawer Header -->
+            <div class="p-4 bg-white border-b border-brand-border flex items-center justify-between">
+              <div>
+                <h4 class="font-poppins font-bold text-sm text-[#A61C4C] flex items-center gap-2">
+                  <span>📖</span> Evidence Drawer
+                </h4>
+                <p class="text-[11px] text-brand-muted">ICMR-NIN & ADA Clinical Protocols</p>
+              </div>
+              <button class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-sm" title="Dismiss Drawer">
+                ✕
+              </button>
+            </div>
+
+            <!-- Drawer Body -->
+            <div class="p-4 space-y-3 overflow-y-auto flex-1">
+              <div class="bg-white p-3 rounded-xl border border-brand-border shadow-soft">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#A61C4C] border border-[#FFBBC7] text-[10px] font-bold">ADA Consensus 2024</span>
+                  <span class="text-[10px] text-[#C02656] font-bold">Primary Ref #1</span>
+                </div>
+                <h5 class="text-xs font-bold text-brand-dark">Standards of Medical Care in Diabetes: Nutritional Therapy</h5>
+                <p class="text-[11px] text-gray-600 italic mt-1 bg-brand-cream p-2 rounded">
+                  "TRE (16:8) shows modest glycemic benefits, provided carbohydrate distribution is controlled during the 8-hour feeding window."
+                </p>
+              </div>
+
+              <div class="bg-white p-3 rounded-xl border border-brand-border shadow-soft">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="px-2 py-0.5 rounded-full bg-rose-50 text-rose-800 border border-rose-200 text-[10px] font-bold">ICMR Guideline</span>
+                  <span class="text-[10px] text-[#C02656] font-bold">Ref #2</span>
+                </div>
+                <h5 class="text-xs font-bold text-brand-dark">Management of Type 2 Diabetes in South Asians</h5>
+                <p class="text-[11px] text-gray-600 italic mt-1 bg-brand-cream p-2 rounded">
+                  "Emphasis on avoiding extended fasts without baseline HbA1c screening."
+                </p>
+              </div>
+            </div>
+
+            <!-- Drawer Dismiss Bar -->
+            <div class="p-3 bg-white border-t border-brand-border text-center">
+              <button class="w-full py-2 rounded-full bg-brand-surface hover:bg-brand-maroonSubtle text-xs font-bold text-[#A61C4C] border border-brand-border">
+                Dismiss Sources Drawer (Tap Backdrop)
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- VIEW 4: MOBILE ANDROID CHROME (360px–412px) WITH SOFT KEYBOARD RAISED -->
+    <section id="view-android" class="view-container max-w-[420px] mx-auto hidden transition-all">
+      <div class="mb-3 flex items-center justify-between px-2">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-[#C02656] inline-block"></span>
+          <h2 class="font-poppins font-bold text-white text-base">📱 Mobile Android (Pixel/Galaxy)</h2>
+        </div>
+        <span class="text-xs bg-[#4A0E26] text-[#FFB1C0] border border-[#C02656]/40 font-bold px-2 py-0.5 rounded-full">Keyboard Active State</span>
+      </div>
+
+      <!-- ANDROID DEVICE SHELL (390px Width) -->
+      <div class="w-[390px] mx-auto bg-brand-cream rounded-[36px] shadow-2xl border-[8px] border-[#2A0815] overflow-hidden flex flex-col h-[780px] relative bg-leaf-pattern">
+        
+        <!-- Android Status Bar -->
+        <div class="h-6 bg-white px-5 flex items-center justify-between text-[11px] font-bold text-gray-800 border-b border-gray-100">
+          <span>10:42</span>
+          <div class="flex items-center gap-1.5 text-xs">
+            <span>5G</span>
+            <span>📶</span>
+            <span>🔋 92%</span>
+          </div>
+        </div>
+
+        <!-- Android 56px Fixed Top Bar -->
+        <header class="h-14 px-3.5 bg-white border-b border-brand-border flex items-center justify-between flex-shrink-0 z-10 shadow-sm">
+          <!-- Hamburger ☰ Button -->
+          <button class="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-brand-dark transition" title="Open Conversation Drawer">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+
+          <!-- NutriAI Wordmark Center -->
+          <div class="flex items-center gap-1.5">
+            <span class="text-lg">🍇</span>
+            <span class="font-poppins font-extrabold text-base text-[#A61C4C] tracking-tight">NutriAI</span>
+          </div>
+
+          <!-- Sources Pill Button "📚 3" -->
+          <button class="px-2.5 py-1 rounded-full bg-[#C02656] hover:bg-[#820036] text-white font-poppins font-bold text-xs flex items-center gap-1 shadow-coral transition">
+            <span>📚</span>
+            <span>3</span>
+          </button>
+        </header>
+
+        <!-- Mobile Scrollable Message List (Compressed by keyboard) -->
+        <div class="flex-1 overflow-y-auto p-3.5 space-y-3">
+          
+          <div class="flex justify-end">
+            <div class="max-w-[82%] bubble-user bg-brand-yellow text-brand-dark p-3 text-xs font-semibold shadow-sm">
+              How much dietary fiber should I aim for daily to support gut microbiota?
+            </div>
+          </div>
+
+          <div class="flex justify-start items-start gap-2">
+            <div class="w-6 h-6 rounded-full bg-[#C02656] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">🍇</div>
+            <div class="max-w-[88%] bubble-assistant bg-white border-l-4 border-[#C02656] p-3 shadow-soft space-y-1.5">
+              <div class="text-[10px] font-bold text-[#A61C4C] uppercase">WHO & EFSA Consensus</div>
+              <p class="text-xs text-gray-800 leading-relaxed">
+                The WHO recommends a minimum of <strong>25g to 30g</strong> of dietary fiber daily for adults
+                <span class="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-[#C02656] rounded-full min-w-[20px] min-h-[20px]">1</span>.
+                Focus on combining soluble fermentable fiber (oats, legumes) with prebiotic inulin (garlic, leeks)
+                <span class="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-[#C02656] rounded-full min-w-[20px] min-h-[20px]">2</span>.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ANDROID INPUT BAR (ELEVATED ABOVE SOFT KEYBOARD) -->
+        <div class="p-2.5 bg-white border-t border-brand-border flex items-center gap-2 z-20">
+          <div class="flex-1 h-12 bg-brand-surface rounded-full border-2 border-[#C02656] px-4 flex items-center shadow-inner">
+            <input 
+              type="text" 
+              value="Does chia seed fiber require soaking?" 
+              class="w-full bg-transparent text-sm text-brand-dark outline-none font-nunito"
+            />
+          </div>
+          <!-- 44px Coral Circle Send Button -->
+          <button class="w-11 h-11 rounded-full bg-[#C02656] text-white flex items-center justify-center shadow-coral flex-shrink-0" style="min-width: 44px; min-height: 44px;">
+            <svg class="w-4 h-4 transform rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+          </button>
+        </div>
+
+        <!-- SIMULATED ANDROID ON-SCREEN SOFT KEYBOARD -->
+        <div class="bg-[#E5D4DA] p-1.5 border-t border-[#DFBFC3] z-20">
+          <div class="text-[9px] font-bold text-[#8B7075] text-center uppercase tracking-wider mb-1">Android Gboard Active • env(keyboard-inset-bottom) Cleared</div>
+          <!-- Keyboard keys mock -->
+          <div class="space-y-1">
+            <div class="flex justify-center gap-1">
+              <span class="w-8 h-9 bg-white rounded shadow text-xs font-bold flex items-center justify-center text-[#27171E]">q</span>
+              <span class="w-8 h-9 bg-white rounded shadow text-xs font-bold flex items-center justify-center text-[#27171E]">w</span>
+              <span class="w-8 h-9 bg-white rounded shadow text-xs font-bold flex items-center justify-center text-[#27171E]">e</span>
+              <span class="w-8 h-9 bg-white rounded shadow text-xs font-bold flex items-center justify-center text-[#27171E]">r</span>
+              <span class="w-8 h-9 bg-white rounded shadow text-xs font-bold flex items-center justify-center text-[#27171E]">t</span>
+              <span class="w-8 h-9 bg-white rounded shadow text-xs font-bold flex items-center justify-center text-[#27171E]">y</span>
+              <span class="w-8 h-9 bg-white rounded shadow text-xs font-bold flex items-center justify-center text-[#27171E]">u</span>
+              <span class="w-8 h-9 bg-white rounded shadow text-xs font-bold flex items-center justify-center text-[#27171E]">i</span>
+              <span class="w-8 h-9 bg-white rounded shadow text-xs font-bold flex items-center justify-center text-[#27171E]">o</span>
+              <span class="w-8 h-9 bg-white rounded shadow text-xs font-bold

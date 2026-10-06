@@ -1,0 +1,70 @@
+{
+  "_comment": "The 6-document corpus (Architecture §12). `id` prefixes every chunk_id. `extractor` picks the extraction backend: pymupdf for prose, docling where tables carry the content (EFSA), fda_chart for the FDA chart (docling mis-decodes its font; see ingestion/fda_chart.py). retrieval_date is recorded at download time in data/manifest.json, not here. `download_url` (optional) overrides where the file is fetched from when source_url blocks automated clients; source_url is always the citation URL. `exclude_pages` (optional, 1-based) lists pages left out of the index, e.g. tables of contents whose entries would otherwise outrank real content.",
+  "documents": [
+    {
+      "id": "who_healthy_diet",
+      "document_name": "Healthy Diet Fact Sheet",
+      "publisher": "World Health Organization (WHO)",
+      "year": 2020,
+      "source_url": "https://www.who.int/news-room/fact-sheets/detail/healthy-diet",
+      "format": "html",
+      "extractor": "html"
+    },
+    {
+      "id": "usda_dietary_guidelines",
+      "document_name": "Dietary Guidelines for Americans, 2020-2025",
+      "publisher": "U.S. Department of Agriculture (USDA) / HHS",
+      "year": 2020,
+      "source_url": "https://www.dietaryguidelines.gov/sites/default/files/2020-12/Dietary_Guidelines_for_Americans_2020-2025.pdf",
+      "download_url": "https://odphp.health.gov/sites/default/files/2026-02/dietary_guidelines_for_americans-2020-2025.pdf",
+      "format": "pdf",
+      "extractor": "pymupdf",
+      "exclude_pages": [
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "fda_storage_chart",
+      "document_name": "Refrigerator & Freezer Storage Chart",
+      "publisher": "U.S. Food and Drug Administration (FDA)",
+      "year": 2023,
+      "source_url": "https://www.fda.gov/media/74435/download",
+      "format": "pdf",
+      "extractor": "fda_chart"
+    },
+    {
+      "id": "uk_eatwell_guide",
+      "document_name": "The Eatwell Guide",
+      "publisher": "UK Food Standards Agency",
+      "year": 2018,
+      "source_url": "https://assets.publishing.service.gov.uk/media/69b3e02e9d8b52961a62b3bb/eatwell-guide-master-digital_Final.pdf",
+      "format": "pdf",
+      "extractor": "pymupdf"
+    },
+    {
+      "id": "efsa_drv_summary",
+      "document_name": "Summary of Dietary Reference Values",
+      "publisher": "European Food Safety Authority (EFSA)",
+      "year": 2017,
+      "source_url": "https://www.efsa.europa.eu/sites/default/files/assets/DRV_Summary_tables_jan_17.pdf",
+      "format": "pdf",
+      "extractor": "docling"
+    },
+    {
+      "id": "icmr_nin_guidelines",
+      "document_name": "Dietary Guidelines for Indians",
+      "publisher": "Indian Council of Medical Research (ICMR) / National Institute of Nutrition (NIN)",
+      "year": 2011,
+      "source_url": "https://www.nin.res.in/downloads/DietaryGuidelinesforNINwebsite.pdf",
+      "format": "pdf",
+      "extractor": "pymupdf",
+      "exclude_pages": [
+        8,
+        9
+      ]
+    }
+  ]
+}
