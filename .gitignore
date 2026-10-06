@@ -29,6 +29,14 @@ ingestion/data/
 .cache/
 huggingface/
 
+# Test output / platform folders
+frontend/test-results/
+frontend/playwright-report/
+.vercel/
+.railway/
+evaluation/results/server.log
+evaluation/results/*_run.log
+
 # OS / editor
 .DS_Store
 Thumbs.db
