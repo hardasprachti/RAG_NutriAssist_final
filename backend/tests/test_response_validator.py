@@ -9,7 +9,7 @@ from core.response_validator import (
     numbers_in,
     support_ratio,
 )
-from core.safety_validator import DECLINE_MESSAGE, SafetyValidator
+from core.safety_validator import DECLINE_MESSAGE, NOT_IN_CORPUS_MESSAGE, SafetyValidator
 from models.schemas import NutritionResponse, ResponseStatus
 from tests.support import (
     CHICKEN, EAT_SALT, EAT_SUGAR, GOOD_CHICKEN, WHO_SUGAR, answered, hit,
@@ -137,15 +137,14 @@ def test_a_very_short_answer_is_flagged_as_vague_but_not_blocked():
 
 
 # ── non-answers ──────────────────────────────────────────────────────────────
-def test_not_in_corpus_must_name_the_documents_searched():
+def test_not_in_corpus_always_gets_the_fixed_message():
     bare = NutritionResponse(answer="The guidance does not cover this.", claims=[],
                              status=ResponseStatus.not_in_corpus, refusal_reason="Not covered.")
     result = validator.validate(bare, [], CORPUS[:2])
-    assert result.ok
-    assert all(d.document_name in result.response.answer for d in CORPUS[:2])
+    assert result.ok and result.response.answer == NOT_IN_CORPUS_MESSAGE
 
     named = bare.model_copy(update={"answer": "Neither the Healthy Diet Fact Sheet nor others cover this."})
-    assert validator.validate(named, [], CORPUS).response.answer == named.answer  # already names one: untouched
+    assert validator.validate(named, [], CORPUS).response.answer == NOT_IN_CORPUS_MESSAGE
 
 
 def test_out_of_scope_from_the_model_is_accepted():

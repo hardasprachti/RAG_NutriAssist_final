@@ -24,7 +24,7 @@ from typing import Any, Optional, Sequence
 
 from core.corpus import BY_NAME, CORPUS, URL_WHITELIST, CorpusDocument
 from core.failure_logger import FailureCategory, Violation
-from core.safety_validator import DECLINE_MESSAGE
+from core.safety_validator import DECLINE_MESSAGE, NOT_IN_CORPUS_MESSAGE
 from models.schemas import Claim, NutritionResponse, ResponseStatus, SourceReference
 
 _NUMBER = re.compile(r"(?<![\w.,])(?:\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)(?![0-9])")
@@ -190,7 +190,7 @@ class ResponseValidator:
             )
         if response.status is not ResponseStatus.answered:
             response = self._without_markers(response)
-            return ValidationResult(self._with_referral(self._name_searched(response, searched)))
+            return ValidationResult(self._with_referral(self._with_fixed_not_in_corpus(response)))
 
         response = self._without_markers(response)
         by_id = {h.chunk.chunk_id: h.chunk for h in retrieved}
@@ -344,14 +344,12 @@ class ResponseValidator:
         return response.model_copy(update={"answer": DECLINE_MESSAGE})
 
     @staticmethod
-    def _name_searched(response: NutritionResponse, searched: Sequence[CorpusDocument]) -> NutritionResponse:
-        """A not_in_corpus answer must say which documents were searched; add them if the model did not."""
-        if response.status is not ResponseStatus.not_in_corpus:
+    def _with_fixed_not_in_corpus(response: NutritionResponse) -> NutritionResponse:
+        """A not_in_corpus reply is always the fixed message: the model's own wording (which may name documents
+        or explain what the sources lack) is replaced."""
+        if response.status is not ResponseStatus.not_in_corpus or response.answer == NOT_IN_CORPUS_MESSAGE:
             return response
-        if any(d.document_name in response.answer or d.named_in(response.answer) for d in searched):
-            return response
-        listing = "; ".join(d.label for d in searched)
-        return response.model_copy(update={"answer": f"{response.answer.rstrip()} Documents searched: {listing}."})
+        return response.model_copy(update={"answer": NOT_IN_CORPUS_MESSAGE})
 
 
 # ── checks that need context the response alone does not carry ───────────────

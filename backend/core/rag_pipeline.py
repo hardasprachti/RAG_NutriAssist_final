@@ -31,6 +31,7 @@ from core.failure_logger import FailureCategory, FailureLogger, Violation
 from core.prompts import load_system_prompt
 from core.spelling import Speller
 from core.response_validator import ResponseValidator, ValidationResult, detect_missing_refusal
+from core.safety_validator import NOT_IN_CORPUS_MESSAGE
 from integrations.llm_client import LLMError, LLMOutputError
 from models.schemas import NutritionResponse, ResponseStatus
 
@@ -223,10 +224,8 @@ class PipelineResult:
 
 
 def not_in_corpus_response(searched: Sequence[CorpusDocument], reason: str) -> NutritionResponse:
-    listing = "; ".join(d.label for d in searched)
     return NutritionResponse(
-        answer="I couldn't find anything in the source documents I use that answers this question, "
-        f"so I won't guess. Documents searched: {listing}.",
+        answer=NOT_IN_CORPUS_MESSAGE,
         claims=[],
         status=ResponseStatus.not_in_corpus,
         refusal_reason=reason,

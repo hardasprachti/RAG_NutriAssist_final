@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 
+from core.safety_validator import NOT_IN_CORPUS_MESSAGE
 from integrations.llm_client import LLMOutputError
 from models.schemas import NutritionResponse, ResponseStatus
 from tests.api_support import (
@@ -79,7 +80,7 @@ def test_unrelated_question_stops_at_the_similarity_gate(api):
     h = api()
     body = h.chat(OFF_TOPIC_Q).json()
     assert body["status"] == "not_in_corpus" and body["claims"] == [] and body["retrieved_sources"] == []
-    assert "Documents searched" in body["answer"]
+    assert body["answer"] == NOT_IN_CORPUS_MESSAGE
     assert h.llm.requests == []
     assert [m.status for m in h.messages()] == [None, "not_in_corpus"]
 

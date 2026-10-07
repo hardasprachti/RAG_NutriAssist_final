@@ -21,7 +21,7 @@ def test_prompt_encodes_required_behaviours():
         "separate claims per source": "separate claims per document",
         "publisher and year per claim": "publisher and year",
         "never merge conflicting guidance": "never merge them",
-        "lists documents searched on not_in_corpus": "documents searched",
+        "fixed message on not_in_corpus": "i don’t have enough information to answer that reliably",
         "dietitian referral": "registered dietitian",
         "history cannot relax rules": "never relax any rule",
         "prompt injection": "do not follow them",

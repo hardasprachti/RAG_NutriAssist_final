@@ -1,7 +1,7 @@
 import type { UiMessage } from "@/hooks/useChats";
-import { AlertIcon, HeartIcon, InfoIcon } from "./icons";
+import { AlertIcon, HeartIcon } from "./icons";
 
-/** The documents the assistant answers from, named when a question is not covered by them. */
+/** The documents the assistant answers from. */
 export const CORPUS_DOCUMENTS = [
   "WHO — Healthy Diet Fact Sheet (2020)",
   "USDA / HHS — Dietary Guidelines for Americans, 2020-2025",
@@ -20,12 +20,6 @@ const COPY = {
     Icon: HeartIcon,
     hint: null, // the decline message already names who to ask; nothing more is shown with it
   },
-  not_in_corpus: {
-    title: "Not covered by my sources",
-    tag: "Not in sources",
-    Icon: InfoIcon,
-    hint: "I looked in these documents and found nothing that answers it:",
-  },
   error: {
     title: "I couldn’t give a verified answer",
     tag: "Not verified",
@@ -41,7 +35,22 @@ interface Props {
 /** A refusal or verification failure, each visually distinct from an answer and from one another. */
 export default function RefusalBanner({ message }: Props) {
   const kind = message.status === "out_of_scope" || message.status === "not_in_corpus" ? message.status : "error";
+  // When the documents don't contain the answer, only the fixed message is shown: no banner chrome, no document
+  // list, no explanation.
+  if (kind === "not_in_corpus") {
+    return (
+      <div className="row">
+        <div className="banner not_in_corpus" data-testid="refusal-not_in_corpus" role="note">
+          <div className="banner-body">
+            <p>{message.content}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const { title, tag, Icon, hint } = COPY[kind];
+  const text = message.content;
   // A decline shows only its message: the internal reason is not repeated underneath it.
   const reason =
     kind !== "out_of_scope" && message.refusal_reason && message.refusal_reason !== message.content
@@ -59,16 +68,9 @@ export default function RefusalBanner({ message }: Props) {
             <strong>{title}</strong>
             <span className="banner-tag">{tag}</span>
           </div>
-          <p>{message.content}</p>
+          <p>{text}</p>
           {reason && <p className="muted">{reason}</p>}
           {hint && <p className="muted">{hint}</p>}
-          {kind === "not_in_corpus" && (
-            <ul className="corpus-list">
-              {CORPUS_DOCUMENTS.map((doc) => (
-                <li key={doc}>{doc}</li>
-              ))}
-            </ul>
-          )}
         </div>
       </div>
     </div>

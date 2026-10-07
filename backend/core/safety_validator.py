@@ -351,6 +351,13 @@ DECLINE_MESSAGE = (
     "For personalised guidance, please consult a registered dietitian or your doctor."
 )
 
+#: The one message shown when the retrieved documents do not contain the answer, whoever decided that (the
+#: retrieval gate or the model). Nothing else is displayed with it: no document list, no explanation.
+NOT_IN_CORPUS_MESSAGE = (
+    "I don’t have enough information to answer that reliably. "
+    "Please consult a qualified nutritionist or healthcare professional for personalized advice."
+)
+
 # Why each category is declined: stored and logged with the response, not shown to the user.
 _REFUSAL_REASONS: dict[SafetyCategory, str] = {
     SafetyCategory.calorie_target: "Personal or daily calorie targets are outside the scope of this assistant.",

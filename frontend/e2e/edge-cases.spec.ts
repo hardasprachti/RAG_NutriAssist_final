@@ -18,12 +18,15 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("refusals that never reach the model", () => {
-  test("an off-corpus question names the documents it searched", async ({ page }) => {
+  test("an off-corpus question gets only the fixed 'not enough information' message", async ({ page }) => {
     await ask(page, "What is the capital of France?");
     const banner = page.getByTestId("refusal-not_in_corpus");
     await expect(banner).toBeVisible();
-    await expect(banner.locator(".corpus-list li")).toHaveCount(6);
-    await expect(banner).toContainText("Eatwell Guide");
+    await expect(banner).toHaveText(
+      "I don’t have enough information to answer that reliably. Please consult a qualified nutritionist or healthcare professional for personalized advice.",
+    );
+    await expect(banner.locator(".corpus-list li")).toHaveCount(0);
+    await expect(page.getByTestId("follow-ups")).toBeVisible();
     await expect(page.locator(".source-card")).toHaveCount(0);
   });
 

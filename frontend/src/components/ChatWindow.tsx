@@ -26,7 +26,7 @@ export default function ChatWindow({ chat, onSend, onInput, onRetry, onRetryHist
 
   return (
     <div className="chat-inner">
-      <MessageList chat={chat} onRetry={onRetry} onCite={onCite}>
+      <MessageList chat={chat} onRetry={onRetry} onCite={onCite} onSend={onSend}>
         {!chat.loaded && !chat.loadError && (
           <p className="muted center" role="status">
             Loading chat…
