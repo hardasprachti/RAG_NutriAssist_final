@@ -82,7 +82,7 @@ export default function ChatPage() {
           </span>
           <div className="chat-title-block">
             <h1>{active.title ?? UNTITLED}</h1>
-            <p className="muted">Answers cited from official guidance documents</p>
+            <p className="muted">Answers cited from the source documents</p>
           </div>
           <button
             type="button"

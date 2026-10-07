@@ -26,15 +26,17 @@ def doc(**overrides) -> Document:
 
 
 # ── registry ─────────────────────────────────────────────────────────────────
-def test_registry_lists_the_six_corpus_documents_with_complete_metadata():
+def test_registry_lists_the_eight_corpus_documents_with_complete_metadata():
     docs = load_registry()
-    assert len(docs) == 6
-    assert len({d.id for d in docs}) == 6
+    assert len(docs) == 8
+    assert len({d.id for d in docs}) == 8
     for d in docs:
         assert d.document_name and d.publisher and d.source_url.startswith("https://")
         assert 1990 < d.year < 2030
-        assert d.format in ("pdf", "html") and d.extractor in ("html", "pymupdf", "docling", "fda_chart")
-    assert {d.extractor for d in docs} >= {"docling", "pymupdf", "html"}
+        assert d.format in ("pdf", "html")
+        assert d.extractor in ("html", "pymupdf", "docling", "fda_chart", "macros_table")
+    assert {d.extractor for d in docs} >= {"docling", "pymupdf", "html", "macros_table"}
+    assert {"fitforfilms_macros", "gwi_nutrition_healthspan"} <= {d.id for d in docs}
 
 
 def test_registry_rejects_unknown_ids():

@@ -17,7 +17,7 @@ def test_backend_corpus_mirrors_the_ingestion_registry():
 
 
 def test_whitelist_has_one_url_per_document():
-    assert len(CORPUS) == 6 and len(URL_WHITELIST) == 6 and len(BY_NAME) == 6
+    assert len(CORPUS) == 8 and len(URL_WHITELIST) == 8 and len(BY_NAME) == 8
 
 
 @pytest.mark.parametrize(
@@ -30,10 +30,21 @@ def test_whitelist_has_one_url_per_document():
         ("EFSA reference values for iron", ["efsa_drv_summary"]),
         ("What do the Indian guidelines say?", ["icmr_nin_guidelines"]),
         ("How do WHO and the FDA differ?", ["who_healthy_diet", "fda_storage_chart"]),
+        ("What does Nutrition for Healthspan say about fasting?", ["gwi_nutrition_healthspan"]),
+        ("According to the Global Wellness Institute, how much water?", ["gwi_nutrition_healthspan"]),
+        ("What does the Fit for Films table list for cod?", ["fitforfilms_macros"]),
     ],
 )
 def test_documents_named_in_a_question_are_detected(text, expected):
     assert [d.id for d in detect_documents(text)] == expected
+
+
+@pytest.mark.parametrize(
+    "text",
+    ["How many calories are in a banana?", "How much protein is in cod?", "What is a healthy diet for nutrition?"],
+)
+def test_generic_nutrition_words_do_not_route_to_the_supplementary_documents(text):
+    assert not {"fitforfilms_macros", "gwi_nutrition_healthspan"} & {d.id for d in detect_documents(text)}
 
 
 @pytest.mark.parametrize("text", ["Who should eat more fibre?", "who recommends fish", "What is a healthy diet?"])

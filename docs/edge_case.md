@@ -77,7 +77,7 @@ Rows 4–9 are **200 responses with a status**, not HTTP errors, so a refusal is
 |---|---|---|---|
 | A source URL returns an HTTP error | The download **fails loudly**; nothing is silently skipped | ✅ | `ingestion/download_documents.py` |
 | `fda.gov` rejects browser User-Agents | A non-browser User-Agent is used | ✅ | `download_documents.py` |
-| `dietaryguidelines.gov` blocks scripts | USDA is fetched from the official ODPHP copy (`download_url`); **citations keep the original URL** | ✅ | `document_registry.json` |
+| `dietaryguidelines.gov` blocks scripts | USDA is fetched from the ODPHP copy (`download_url`); **citations keep the original URL** | ✅ | `document_registry.json` |
 | A source URL later moves or is blocked | Local copies of the downloads are kept; re-verify in Phase 9 | 🔶 | Key Risks |
 | The FDA chart's font is garbled by Docling and no table is found | The chart is rebuilt from PyMuPDF word positions | ✅ | `ingestion/fda_chart.py` |
 | Table-heavy documents (EFSA) | Docling extraction; tables are atomic chunks | ✅ | `ingestion/extract_text.py` |

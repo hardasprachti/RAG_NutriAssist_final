@@ -3,6 +3,7 @@
 import pytest
 
 from core.safety_validator import (
+    DECLINE_MESSAGE,
     LLMIntentClassifier,
     SafetyCategory,
     SafetyValidator,
@@ -90,7 +91,7 @@ def test_restricted_message_is_refused(message, category):
     assert response.status is ResponseStatus.out_of_scope
     assert response.claims == []
     assert response.refusal_reason
-    assert "dietitian" in response.answer and "healthcare professional" in response.answer
+    assert response.answer == DECLINE_MESSAGE
 
 
 @pytest.mark.parametrize("message", OBFUSCATED)
@@ -210,7 +211,8 @@ def test_refusals_are_valid_out_of_scope_responses(category):
     response = build_refusal(category)
     assert response.status is ResponseStatus.out_of_scope
     assert response.claims == []
-    assert "dietitian" in response.answer
+    assert response.answer == DECLINE_MESSAGE
+    assert "registered dietitian or your doctor" in response.answer
     assert response.refusal_reason
 
 

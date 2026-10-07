@@ -6,6 +6,7 @@ Extractors (chosen per document in document_registry.json):
 * ``pymupdf``   PyMuPDF text, font-size/bold heading detection and ``find_tables`` (USDA, Eatwell, ICMR).
 * ``docling``   Docling layout + TableFormer models, where table structure carries the content (EFSA).
 * ``fda_chart`` PyMuPDF word geometry for the FDA two-panel chart; see ``fda_chart.py`` for why not Docling.
+* ``macros_table`` PyMuPDF word geometry for the Fit for Films food-macros table; see ``macros_table.py``.
 
 Output is cached as JSON in ingestion/data/extracted/ so the slow Docling run happens once.
 
@@ -20,7 +21,7 @@ import re
 import sys
 from typing import Optional
 
-from ingestion import fda_chart
+from ingestion import fda_chart, macros_table
 from ingestion.common import EXTRACTED_DIR, Document, load_registry
 from ingestion.models import HEADING, LIST, TABLE, TEXT, Block, Extraction
 
@@ -35,7 +36,13 @@ _CONTROL = re.compile("[" + chr(0) + "-" + chr(8) + chr(0xB) + "-" + chr(0x1F) +
 _GARBLE_THRESHOLD = 0.005  # share of U+FFFD characters that marks a page as garbled
 
 
+# The GWI booklet's running footer ("NUTRITION FOR HEALTHSPAN 25"), sometimes overprinted so that every letter is
+# doubled ("NNUUTTRRITITIOIONN F FOORR H HEEAALLTTHHSSPPAANN 25"); it leaks into table cells on a few pages.
+_RUNNING_FOOTER = re.compile(r"\bN+U+T+R+[A-Z\s]{8,60}?S+P+A+N+\b\s*\d{0,3}")
+
+
 def clean(text: str) -> str:
+    text = _RUNNING_FOOTER.sub(" ", text)
     return _WS.sub(" ", _CONTROL.sub("", text).replace(_NBSP, " ")).strip()
 
 
@@ -623,11 +630,22 @@ def extract_fda(doc: Document) -> Extraction:
     return _finish(doc, "fda_chart", len(pdf), blocks, {i + 1: p.get_text() for i, p in enumerate(pdf)})
 
 
+def extract_macros(doc: Document) -> Extraction:
+    import pymupdf
+
+    pdf = pymupdf.open(doc.raw_path)
+    blocks, warnings = macros_table.extract_blocks(pdf)
+    result = _finish(doc, "macros_table", len(pdf), blocks, {i + 1: p.get_text() for i, p in enumerate(pdf)})
+    result.warnings.extend(f"{doc.id}: {w}" for w in warnings)
+    return result
+
+
 EXTRACTORS = {
     "html": extract_html,
     "pymupdf": extract_pymupdf,
     "docling": extract_docling,
     "fda_chart": extract_fda,
+    "macros_table": extract_macros,
 }
 
 

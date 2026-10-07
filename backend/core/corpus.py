@@ -1,4 +1,4 @@
-"""The six-document corpus as the backend knows it: the citation whitelist and document detection.
+"""The eight-document corpus as the backend knows it: the citation whitelist and document detection.
 
 ``ingestion/document_registry.json`` is the source of truth for what gets indexed; this module mirrors the
 fields the query side needs (name, publisher, year, citation URL) and ``tests/test_corpus.py`` fails if the
@@ -93,6 +93,22 @@ CORPUS: tuple[CorpusDocument, ...] = (
         name_patterns=(
             r"\bICMR\b", r"\bNIN\b", r"(?i)\bnational institute of nutrition\b", r"(?i)\bindian council of medical\b",
         ),
+    ),
+    # Two supplementary documents added after the first six. Their aliases are explicit names only:
+    # "calories" or "nutrition" alone must not route a question to one of them.
+    CorpusDocument(
+        "fitforfilms_macros", "Calories and Macronutrients of Common Foods", "Fit for Films", 2018,
+        "https://fitforfilms.com/wp-content/uploads/Macros-of-common-foods-V3.pdf",
+        alias_patterns=(r"(?i)\bfit ?for ?films\b", r"(?i)\bcalories and macronutrients of common foods\b"),
+        name_patterns=(r"(?i)\bfit ?for ?films\b", r"(?i)\bcalories and macronutrients of common foods\b"),
+    ),
+    CorpusDocument(
+        "gwi_nutrition_healthspan", "Nutrition for Healthspan", "Global Wellness Institute (GWI)", 2023,
+        "https://globalwellnessinstitute.org/wp-content/uploads/2023/12/NUTRITION_4_HEALTH_SPAN_GWI_final_202301210_hi-res.pdf",
+        alias_patterns=(
+            r"\bGWI\b", r"(?i)\bglobal wellness institute\b", r"(?i)\bnutrition for healthspan\b", r"(?i)\bhealthspan\b",
+        ),
+        name_patterns=(r"\bGWI\b", r"(?i)\bglobal wellness institute\b", r"(?i)\bnutrition for healthspan\b"),
     ),
 )
 

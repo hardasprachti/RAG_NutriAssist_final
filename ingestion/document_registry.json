@@ -1,5 +1,5 @@
 {
-  "_comment": "The 6-document corpus (Architecture §12). `id` prefixes every chunk_id. `extractor` picks the extraction backend: pymupdf for prose, docling where tables carry the content (EFSA), fda_chart for the FDA chart (docling mis-decodes its font; see ingestion/fda_chart.py). retrieval_date is recorded at download time in data/manifest.json, not here. `download_url` (optional) overrides where the file is fetched from when source_url blocks automated clients; source_url is always the citation URL. `exclude_pages` (optional, 1-based) lists pages left out of the index, e.g. tables of contents whose entries would otherwise outrank real content.",
+  "_comment": "The 8-document corpus (Architecture §12: six documents, plus two supplementary PDFs added later: a food macronutrient table and the GWI Nutrition for Healthspan booklet). `id` prefixes every chunk_id. `extractor` picks the extraction backend: pymupdf for prose, docling where tables carry the content (EFSA), fda_chart for the FDA chart (docling mis-decodes its font; see ingestion/fda_chart.py), macros_table for the food-macros table (the generic extractor drops cells; see ingestion/macros_table.py). retrieval_date is recorded at download time in data/manifest.json, not here. `download_url` (optional) overrides where the file is fetched from when source_url blocks automated clients; source_url is always the citation URL. `exclude_pages` (optional, 1-based) lists pages left out of the index, e.g. tables of contents whose entries would otherwise outrank real content.",
   "documents": [
     {
       "id": "who_healthy_diet",
@@ -65,6 +65,24 @@
         8,
         9
       ]
+    },
+    {
+      "id": "fitforfilms_macros",
+      "document_name": "Calories and Macronutrients of Common Foods",
+      "publisher": "Fit for Films",
+      "year": 2018,
+      "source_url": "https://fitforfilms.com/wp-content/uploads/Macros-of-common-foods-V3.pdf",
+      "format": "pdf",
+      "extractor": "macros_table"
+    },
+    {
+      "id": "gwi_nutrition_healthspan",
+      "document_name": "Nutrition for Healthspan",
+      "publisher": "Global Wellness Institute (GWI)",
+      "year": 2023,
+      "source_url": "https://globalwellnessinstitute.org/wp-content/uploads/2023/12/NUTRITION_4_HEALTH_SPAN_GWI_final_202301210_hi-res.pdf",
+      "format": "pdf",
+      "extractor": "pymupdf"
     }
   ]
 }

@@ -88,11 +88,11 @@ gantt
 
 ## Phase 2 — Corpus Ingestion Pipeline
 
-**Goal:** All 6 official documents are processed into metadata-rich, embedded chunks in the vector store.
+**Goal:** All 6 documents are processed into metadata-rich, embedded chunks in the vector store.
 
 ### Tasks
 - [x] Create `ingestion/document_registry.json` with name, publisher, year, source URL, format for the 6 documents (Architecture §12); `retrieval_date` filled at download time. *(Adds `extractor`, optional `download_url` and `exclude_pages`; `retrieval_date` is written to `ingestion/data/manifest.json`. The `year` values need review: see below.)*
-- [x] `download_documents.py` — fetch the 5 PDFs and scrape the WHO HTML page; record `retrieval_date`; fail loudly on HTTP errors (verify every URL resolves — the Eatwell URL in particular). *(All 6 resolve. `fda.gov` rejects browser User-Agents and `dietaryguidelines.gov` blocks scripts outright, so USDA is fetched from the official ODPHP copy via `download_url`; citations keep the original URL.)*
+- [x] `download_documents.py` — fetch the 5 PDFs and scrape the WHO HTML page; record `retrieval_date`; fail loudly on HTTP errors (verify every URL resolves — the Eatwell URL in particular). *(All 6 resolve. `fda.gov` rejects browser User-Agents and `dietaryguidelines.gov` blocks scripts outright, so USDA is fetched from the ODPHP copy via `download_url`; citations keep the original URL.)*
 - [x] `extract_text.py` — PyMuPDF for general text; **Docling for table-heavy docs** (FDA storage chart, EFSA DRV tables). Extract section headings per page/section. *(Docling is used for EFSA. For FDA it garbles the font and finds no table, so `fda_chart.py` rebuilds the chart from PyMuPDF word positions; recorded in the Architecture Decision Log.)*
 - [x] `chunker.py` — recursive splitting, **512 tokens / 64 overlap**; treat tables, numbered recommendations, and lists as **atomic units** (do not split; allow oversize chunks if needed). Attach heading-derived `section`. *(Atomic when they fit; oversize ones are split on row/item boundaries with the header/lead-in repeated, because the model's input window is 512 tokens.)*
 - [x] Generate chunk metadata exactly per Architecture §6: `chunk_id` (stable, deterministic, e.g. `who_healthy_diet_chunk_007`), `document_name`, `publisher`, `year`, `source_url`, `retrieval_date`, `section`, `chunk_index`, `total_chunks`, `text`.

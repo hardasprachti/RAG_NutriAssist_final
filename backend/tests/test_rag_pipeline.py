@@ -64,7 +64,7 @@ def test_the_prompt_holds_the_context_the_documents_searched_and_the_question():
     text = user["content"]
     assert text.index("DOCUMENTS SEARCHED") < text.index("CONTEXT") < text.index("QUESTION:")
     assert f"[chunk_id: {CHICKEN.chunk_id}]" in text and "Chicken or turkey, whole" in text
-    assert "Healthy Diet Fact Sheet (" in text  # all six documents are listed as searched
+    assert "Healthy Diet Fact Sheet (" in text  # every corpus document is listed as searched
     assert text.rstrip().endswith(CHICKEN_Q)
 
 

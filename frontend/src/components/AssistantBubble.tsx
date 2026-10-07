@@ -68,7 +68,7 @@ export default function AssistantBubble({ message, selectedChunkId, onCite }: Pr
         </ul>
 
         <div className="bubble-foot">
-          <span>Based only on the retrieved official documents · Not individual medical advice</span>
+          <span>Based only on the retrieved source documents · Not individual medical advice</span>
           <span className="bubble-actions">
             {message.retrieved_sources.length > 0 && (
               <button type="button" onClick={() => onCite(message.id, null)}>

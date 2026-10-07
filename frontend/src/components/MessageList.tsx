@@ -54,7 +54,7 @@ export default function MessageList({ chat, onRetry, onCite, children }: Props) 
             <BowlIcon />
           </span>
           <div className="bubble assistant-bubble thinking" role="status">
-            <span className="spinner" aria-hidden="true" /> Checking the official sources…
+            <span className="spinner" aria-hidden="true" /> Checking the sources…
           </div>
         </div>
       )}

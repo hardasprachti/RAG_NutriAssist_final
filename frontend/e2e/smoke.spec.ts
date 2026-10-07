@@ -39,7 +39,7 @@ test("a restricted question gets the out-of-scope refusal, with no sources", asy
 
 test("chats are independent: ask in one, open another while it answers, nothing leaks", async ({ page }) => {
   await ask(page, "How long can eggs stay in the fridge?");
-  await expect(page.getByText("Checking the official sources")).toBeVisible();
+  await expect(page.getByText("Checking the sources")).toBeVisible();
 
   await newChat(page).click();
   await expect(page.getByText("What would you like to know?")).toBeVisible();

@@ -39,7 +39,7 @@ class Document:
     year: int
     source_url: str
     format: str  # "pdf" | "html"
-    extractor: str  # "pymupdf" | "docling" | "html"
+    extractor: str  # "pymupdf" | "docling" | "html" | "fda_chart" | "macros_table"
     download_url: Optional[str] = None
     exclude_pages: tuple[int, ...] = ()
 

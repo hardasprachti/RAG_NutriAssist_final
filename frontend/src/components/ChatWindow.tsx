@@ -47,7 +47,7 @@ export default function ChatWindow({ chat, onSend, onInput, onRetry, onRetryHist
             </span>
             <h2>What would you like to know?</h2>
             <p className="muted">
-              Ask about nutrition or food safety. Every answer comes only from official guidance documents, with
+              Ask about nutrition or food safety. Every answer comes only from the source documents, with
               citations you can check.
             </p>
             <div className="examples">

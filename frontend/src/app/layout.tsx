@@ -16,7 +16,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "NutriAI Assistant",
   description:
-    "Answers nutrition questions from official guidance documents, with citations.",
+    "Answers nutrition questions from guidance documents, with citations.",
 };
 
 export const viewport: Viewport = {

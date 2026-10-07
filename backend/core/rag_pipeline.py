@@ -225,7 +225,7 @@ class PipelineResult:
 def not_in_corpus_response(searched: Sequence[CorpusDocument], reason: str) -> NutritionResponse:
     listing = "; ".join(d.label for d in searched)
     return NutritionResponse(
-        answer="I couldn't find anything in the official guidance documents I use that answers this question, "
+        answer="I couldn't find anything in the source documents I use that answers this question, "
         f"so I won't guess. Documents searched: {listing}.",
         claims=[],
         status=ResponseStatus.not_in_corpus,

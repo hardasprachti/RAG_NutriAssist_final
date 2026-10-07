@@ -35,7 +35,7 @@ app = FastAPI(
     title="Nutrition Assistant API",
     version="1.0.0",
     description=(
-        "Grounded, cited answers about nutrition and food safety from six official documents. Every non-2xx "
+        "Grounded, cited answers about nutrition and food safety from eight source documents. Every non-2xx "
         "response has the `ErrorEnvelope` shape; refusals and verification failures are 200s with a `status`."
     ),
     lifespan=lifespan,

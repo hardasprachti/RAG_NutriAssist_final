@@ -4,7 +4,7 @@ The model's output is untrusted. After Pydantic has parsed it, this module check
 actually retrieved:
 
 * **Citations** - every ``chunk_id`` must be one the model was shown; document, publisher, year and URL must
-  belong to the six-document corpus (URL whitelist). The *chunk's* metadata is the truth: the model's copy is
+  belong to the eight-document corpus (URL whitelist). The *chunk's* metadata is the truth: the model's copy is
   overwritten, never trusted.
 * **Numbers** - every number in a claim must appear in the chunk it cites (no invented, converted or
   "rounded" figures); every number in the summary ``answer`` must appear in a claim.
@@ -24,6 +24,7 @@ from typing import Any, Optional, Sequence
 
 from core.corpus import BY_NAME, CORPUS, URL_WHITELIST, CorpusDocument
 from core.failure_logger import FailureCategory, Violation
+from core.safety_validator import DECLINE_MESSAGE
 from models.schemas import Claim, NutritionResponse, ResponseStatus, SourceReference
 
 _NUMBER = re.compile(r"(?<![\w.,])(?:\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)(?![0-9])")
@@ -67,9 +68,6 @@ _STOPWORDS = frozenset(
     "more most each into over only when where what while according recommend recommends recommended states "
     "state says said guidance guideline guidelines document people general generally per".split()
 )
-
-REFERRAL_SENTENCE = "Please consult a registered dietitian or a qualified healthcare professional."
-_REFERRAL = re.compile("(?i)" + chr(92) + "b(?:dietitian|dietician|nutritionist|healthcare professional|health care professional|doctor|physician)" + chr(92) + "b")
 
 BLOCK_BELOW_SUPPORT = 0.15  # share of claim content words found in the cited chunk
 FLAG_BELOW_SUPPORT = 0.40
@@ -339,10 +337,11 @@ class ResponseValidator:
 
     @staticmethod
     def _with_referral(response: NutritionResponse) -> NutritionResponse:
-        """A decline must point the user to a professional (Problem Statement §6); add it if the model did not."""
-        if response.status is not ResponseStatus.out_of_scope or _REFERRAL.search(response.answer):
+        """Every decline reads the same, wherever it came from, and points the user to a professional
+        (Problem Statement §6): the model's own wording is replaced by the fixed decline message."""
+        if response.status is not ResponseStatus.out_of_scope or response.answer == DECLINE_MESSAGE:
             return response
-        return response.model_copy(update={"answer": f"{response.answer.rstrip()} {REFERRAL_SENTENCE}"})
+        return response.model_copy(update={"answer": DECLINE_MESSAGE})
 
     @staticmethod
     def _name_searched(response: NutritionResponse, searched: Sequence[CorpusDocument]) -> NutritionResponse:

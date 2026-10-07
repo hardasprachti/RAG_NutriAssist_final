@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("refusals that never reach the model", () => {
-  test("an off-corpus question names the six documents it searched", async ({ page }) => {
+  test("an off-corpus question names the documents it searched", async ({ page }) => {
     await ask(page, "What is the capital of France?");
     const banner = page.getByTestId("refusal-not_in_corpus");
     await expect(banner).toBeVisible();

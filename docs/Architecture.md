@@ -48,7 +48,7 @@ graph TB
         DB["Relational Database\n(Supabase / SQLite)"]
     end
 
-    subgraph Corpus["📚 RAG Corpus (6 Official Documents)"]
+    subgraph Corpus["📚 RAG Corpus (6 Documents)"]
         DOC1["WHO Healthy Diet"]
         DOC2["USDA Guidelines 2020-2025"]
         DOC3["FDA Storage Chart"]
@@ -255,7 +255,7 @@ This pipeline runs **once** (or on document updates) to populate the vector stor
 
 ```mermaid
 flowchart LR
-    A["Official PDF / HTML\nDocuments"] --> B["PDF Extractor\n(PyMuPDF / Docling)"]
+    A["PDF / HTML\nDocuments"] --> B["PDF Extractor\n(PyMuPDF / Docling)"]
     B --> C["Text + Section Headings\nExtracted"]
     C --> D["Chunker\n(Recursive or Semantic)"]
     D --> E["Chunks with Metadata\n(doc_name, publisher, year, url, section, chunk_id)"]

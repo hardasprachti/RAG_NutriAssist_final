@@ -1,6 +1,6 @@
 # AI-Powered Nutrition Assistant (M2)
 
-A RAG chatbot that answers nutrition questions **only** from six official guidance documents (WHO, USDA, FDA, UK Eatwell, EFSA, ICMR/NIN), with a verifiable citation for every claim. It declines personal calorie/weight targets and medical dietary advice.
+A RAG chatbot that answers nutrition questions **only** from its source documents, with a verifiable citation for every claim: six guidance documents (WHO, USDA, FDA, UK Eatwell, EFSA, ICMR/NIN) plus two supplementary PDFs (a food calories-and-macros table from Fit for Films, 2018, and the Global Wellness Institute's *Nutrition for Healthspan* booklet, 2023). It declines personal calorie/weight targets and medical dietary advice.
 
 > Status: under construction. See [docs/implementation_plan.md](docs/implementation_plan.md) for the phase plan and [docs/Architecture.md](docs/Architecture.md) for the design. The full README (RAG configuration, schema changes, safety design, limitations, live URL) is completed in Phase 9.
 
@@ -106,7 +106,7 @@ Steps: `download_documents` (fails loudly on any HTTP/format error; records `ret
 |---|---|
 | Retrieval | Top-k (default 5). A document named in the question ("according to WHO", "the FDA chart") filters the search. A comparison ("differ", "compare", two documents named) retrieves per document and merges, so one document cannot crowd the rest out. Routing words are removed from the *search text* only. Chunks scoring under the similarity gate are dropped; if none remain the answer is `not_in_corpus` with **no LLM call** |
 | Prompt | Fixed system prompt + one user message: documents searched, chunks grouped by document (chunk_id, section, URL), recent history (quoted, marked context-only), the question |
-| Validation (`response_validator.py`) | Pydantic schema; every `chunk_id` was retrieved; document/publisher/URL are in the six-document whitelist; source metadata is **overwritten from the chunk**; every number in a claim appears in its cited chunk; every number in the summary appears in a claim; a claim may not name a different document than it cites; lexical support check. Findings are *blocking* (retry, then `error`) or *advisory* (logged, response returned) |
+| Validation (`response_validator.py`) | Pydantic schema; every `chunk_id` was retrieved; document/publisher/URL are in the eight-document whitelist; source metadata is **overwritten from the chunk**; every number in a claim appears in its cited chunk; every number in the summary appears in a claim; a claim may not name a different document than it cites; lexical support check. Findings are *blocking* (retry, then `error`) or *advisory* (logged, response returned) |
 | Citation re-pointing | Tables are split into row-group chunks, so a correct figure is often cited to the wrong sibling. If another retrieved chunk fully supports the claim, the citation is re-pointed (logged as advisory). Fabricated chunk ids are never re-pointed, and ambiguous matches (e.g. male vs female table) stay rejected |
 | Failure log (`failure_logger.py`) | Every rejection and flag is written to `failure_logs` (question, raw model output, retrieved chunks, category, description, model). A failed write is itself logged at ERROR with the full record |
 

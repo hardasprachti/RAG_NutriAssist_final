@@ -9,7 +9,7 @@ from core.response_validator import (
     numbers_in,
     support_ratio,
 )
-from core.safety_validator import SafetyValidator
+from core.safety_validator import DECLINE_MESSAGE, SafetyValidator
 from models.schemas import NutritionResponse, ResponseStatus
 from tests.support import (
     CHICKEN, EAT_SALT, EAT_SUGAR, GOOD_CHICKEN, WHO_SUGAR, answered, hit,
@@ -247,16 +247,22 @@ def test_digits_inside_a_marker_are_not_mistaken_for_figures():
     assert validator.validate(answered(CHICKEN, GOOD_CHICKEN + marker), HITS).ok
 
 
-# ── declines must recommend a professional ───────────────────────────────────
-def test_an_out_of_scope_answer_without_a_referral_gets_one():
+# ── every decline reads the same and recommends a professional ───────────────
+def test_an_out_of_scope_answer_from_the_model_becomes_the_fixed_decline_message():
     terse = NutritionResponse(answer="I'm sorry, but I can't provide that information.", claims=[],
                               status=ResponseStatus.out_of_scope, refusal_reason="Outside the scope.")
-    out = validator.validate(terse, []).response.answer
-    assert out.startswith("I'm sorry, but I can't provide that information.")
-    assert "registered dietitian or a qualified healthcare professional" in out
+    checked = validator.validate(terse, []).response
+    assert checked.answer == DECLINE_MESSAGE
+    assert checked.claims == [] and checked.refusal_reason == "Outside the scope."
 
 
-def test_an_out_of_scope_answer_that_already_refers_is_untouched():
+def test_an_out_of_scope_answer_that_already_refers_is_replaced_too():
     ok = NutritionResponse(answer="I can't advise on that; please ask your doctor.", claims=[],
                            status=ResponseStatus.out_of_scope, refusal_reason="Medical advice.")
-    assert validator.validate(ok, []).response.answer == ok.answer
+    assert validator.validate(ok, []).response.answer == DECLINE_MESSAGE
+
+
+def test_the_decline_message_leaves_other_statuses_alone():
+    answer = answered(CHICKEN, GOOD_CHICKEN)
+    assert validator.validate(answer, HITS).response.answer == answer.answer
+    assert DECLINE_MESSAGE not in validator.validate(answer, HITS).response.answer

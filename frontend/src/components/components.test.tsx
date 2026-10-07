@@ -47,19 +47,25 @@ describe("RefusalBanner", () => {
   const refusal = (status: "out_of_scope" | "not_in_corpus" | "error") =>
     message({ id: "r", role: "assistant", content: "I can't help with that.", status, refusal_reason: "Reason." });
 
-  it("recommends a professional for out_of_scope", () => {
-    render(<RefusalBanner message={refusal("out_of_scope")} />);
+  it("shows only the decline message for out_of_scope: no reason, no hint, no source details", () => {
+    const decline =
+      "I can't help with calorie targets, weight goals, or medical advice. " +
+      "For personalised guidance, please consult a registered dietitian or your doctor.";
+    render(<RefusalBanner message={message({ id: "d", role: "assistant", content: decline, status: "out_of_scope", refusal_reason: "Reason." })} />);
     const banner = screen.getByTestId("refusal-out_of_scope");
     expect(within(banner).getByText("Out of scope")).toBeInTheDocument();
-    expect(banner).toHaveTextContent(/doctor or registered dietitian/);
+    expect(banner).toHaveTextContent(decline);
+    expect(banner).not.toHaveTextContent("Reason.");
+    expect(banner).not.toHaveTextContent(/fits you/);
     expect(banner).not.toHaveTextContent(CORPUS_DOCUMENTS[0]);
+    expect(banner.querySelectorAll("p")).toHaveLength(1);
   });
 
   it("lists the documents searched for not_in_corpus", () => {
     render(<RefusalBanner message={refusal("not_in_corpus")} />);
     const banner = screen.getByTestId("refusal-not_in_corpus");
     for (const doc of CORPUS_DOCUMENTS) expect(banner).toHaveTextContent(doc);
-    expect(CORPUS_DOCUMENTS).toHaveLength(6);
+    expect(CORPUS_DOCUMENTS).toHaveLength(8);
   });
 
   it("treats a verification failure as its own kind, never as an answer", () => {
