@@ -61,10 +61,16 @@ describe("RefusalBanner", () => {
     expect(banner.querySelectorAll("p")).toHaveLength(1);
   });
 
-  it("lists the documents searched for not_in_corpus", () => {
-    render(<RefusalBanner message={refusal("not_in_corpus")} />);
+  it("shows only the message for not_in_corpus: no title, tag, reason, hint or document list", () => {
+    const content =
+      "I don’t have enough information to answer that reliably. " +
+      "Please consult a qualified nutritionist or healthcare professional for personalized advice.";
+    render(<RefusalBanner message={message({ id: "n", role: "assistant", content, status: "not_in_corpus", refusal_reason: "Reason." })} />);
     const banner = screen.getByTestId("refusal-not_in_corpus");
-    for (const doc of CORPUS_DOCUMENTS) expect(banner).toHaveTextContent(doc);
+    expect(banner).toHaveTextContent(content);
+    expect(banner.textContent).toBe(content);
+    expect(banner.querySelectorAll("p")).toHaveLength(1);
+    expect(banner.querySelector("details")).toBeNull();
     expect(CORPUS_DOCUMENTS).toHaveLength(8);
   });
 

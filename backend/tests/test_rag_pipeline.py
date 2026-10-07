@@ -12,7 +12,7 @@ from core.rag_pipeline import (
     classify_output_error,
     render_history,
 )
-from core.safety_validator import SafetyValidator
+from core.safety_validator import NOT_IN_CORPUS_MESSAGE, SafetyValidator
 from integrations.llm_client import LLMError, LLMOutputError
 from models.schemas import NutritionResponse, ResponseStatus
 from tests.support import (
@@ -90,7 +90,7 @@ def test_an_unrelated_question_is_not_in_corpus_without_an_llm_call():
     result = h.ask("How do I change a flat tyre?")  # lands on the 'everything else' axis: no chunk is close
     assert result.outcome == "not_in_corpus" and result.stage == "retrieval_gate"
     assert h.llm.requests == [] and result.hits == []
-    assert "Documents searched" in result.response.answer and "Eatwell" in result.response.answer
+    assert result.response.answer == NOT_IN_CORPUS_MESSAGE
     assert result.retrieval.top_score is not None and result.response.claims == []
 
 
@@ -236,7 +236,7 @@ def test_the_model_declaring_not_in_corpus_is_accepted_and_names_the_documents()
     h = Harness(refusal)
     result = h.ask("Tell me about chicken farming.")  # similar enough to retrieve, not to answer
     assert result.outcome == "not_in_corpus" and result.stage == "llm" and h.log.rows == []
-    assert "Documents searched" in result.response.answer
+    assert result.response.answer == NOT_IN_CORPUS_MESSAGE  # the model's own wording is replaced
 
 
 def test_the_model_declaring_out_of_scope_is_accepted():

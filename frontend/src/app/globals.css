@@ -969,6 +969,38 @@ kbd {
   font-size: 0.8rem;
 }
 
+.corpus-details summary {
+  cursor: pointer;
+  color: var(--maroon);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.corpus-details[open] summary {
+  margin-bottom: 0.3rem;
+}
+
+/* Suggested follow-up questions under the latest reply, lined up with the reply's text column. */
+.follow-ups {
+  max-width: min(100%, 700px);
+  margin-left: 2.75rem;
+}
+
+.follow-ups-heading {
+  margin-bottom: 0.4rem;
+  font-weight: 700;
+}
+
+.follow-ups .examples {
+  margin-top: 0;
+}
+
+.follow-ups .examples button {
+  font-weight: 600;
+  line-height: 1.35;
+  border-radius: 14px;
+}
+
 .banner.out_of_scope {
   border-color: #ffb1c0;
   background: var(--maroon-light);
